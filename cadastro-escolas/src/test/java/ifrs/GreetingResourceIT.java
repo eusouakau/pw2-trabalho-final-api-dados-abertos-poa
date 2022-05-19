@@ -1,4 +1,4 @@
-package ifrs.edu;
+package ifrs;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 

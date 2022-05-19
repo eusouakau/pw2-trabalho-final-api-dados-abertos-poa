@@ -1,4 +1,4 @@
-package ifrs.edu;
+package ifrs;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
