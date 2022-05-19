@@ -1,4 +1,4 @@
-package ifrs.edu;
+package ifrs;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
