@@ -18,11 +18,17 @@ public class MatriculasEscolasResource {
     @RestClient
     MatriculasEscolasService matriculasEscolasService;
     
+    //@GET
+    //@Produces(MediaType.APPLICATION_JSON)
+    //@Path("/findByName")
+    //public List<MatriculasEscolas> getNomeMatriculasEscolas(@QueryParam("nome") String nome) {
+    
+    //    return matriculasEscolasService.findByName(nome);
+    //}
     @GET
+    @Path("/findByCodigo/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/findByNameLocal")
-    public List<MatriculasEscolas> getNomeMatriculasEscolas(@QueryParam("nome") String nome) {
-        //System.out.println("teste");
-        return matriculasEscolasService.findByName(nome);
+    public MatriculasEscolas getCodigoMatriculasEscolas(@QueryParam("id") Integer id) {
+        return matriculasEscolasService.findByCodigo(id);
     }
 }
