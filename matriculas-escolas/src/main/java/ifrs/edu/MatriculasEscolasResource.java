@@ -1,34 +1,24 @@
 package ifrs.edu;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.ws.rs.GET;
+import javax.inject.Singleton;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-
 @Path("/matriculas-escolas")
+@Singleton
 public class MatriculasEscolasResource {
-
-    @Inject
-    @RestClient
-    MatriculasEscolasService matriculasEscolasService;
     
-    //@GET
-    //@Produces(MediaType.APPLICATION_JSON)
-    //@Path("/findByName")
-    //public List<MatriculasEscolas> getNomeMatriculasEscolas(@QueryParam("nome") String nome) {
-    
-    //    return matriculasEscolasService.findByName(nome);
-    //}
-    @GET
-    @Path("/findByCodigo/{id}")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public MatriculasEscolas getCodigoMatriculasEscolas(@QueryParam("id") Integer id) {
-        return matriculasEscolasService.findByCodigo(id);
+    public MatriculaEscola setIdMatriculasEscolas(@FormParam("id") Integer id, String nome) {
+        MatriculaEscola m = new MatriculaEscola();
+        m.setId(id);
+        m.setName(nome);
+        return m;
     }
 }

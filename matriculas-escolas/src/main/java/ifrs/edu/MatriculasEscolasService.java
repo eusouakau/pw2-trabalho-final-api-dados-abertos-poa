@@ -1,26 +1,22 @@
 package ifrs.edu;
 
-import java.util.List;
-
-import javax.ws.rs.GET;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+@Path("/action/datastore_search?")
 @RegisterRestClient
 public interface MatriculasEscolasService {
     
-    //@GET
-    //@Path("/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&fields=nome")
-    //@Produces(MediaType.APPLICATION_JSON)
-    //public List<MatriculasEscolas> findByName(@QueryParam("nome") String nome);
-
-    @GET
-    @Path("/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&filters={\"_id\":\"id\"}")
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public MatriculasEscolas findByCodigo(@QueryParam("_id") Integer id);
-    
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Path("resource_id=5b5bc272-6666-4d24-8ddd-138fea511809")
+    public MatriculaEscola findById(@PathParam("_id") Integer id);
+    public MatriculaEscola findByName(@PathParam("nome") String nome);
 }
