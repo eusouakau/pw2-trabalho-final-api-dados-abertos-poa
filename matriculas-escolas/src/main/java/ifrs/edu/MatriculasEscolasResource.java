@@ -1,24 +1,44 @@
 package ifrs.edu;
 
-import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+import javax.swing.JOptionPane;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 @Path("/matriculas-escolas")
-@Singleton
 public class MatriculasEscolasResource {
+   
+    //private static Integer _id = 5;
+    static boolean flag = false;
+
+    //private static String name;
+
+    @Inject
+    @RestClient
+    MatriculasEscolasService matriculasEscolasService;
     
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public MatriculaEscola setIdMatriculasEscolas(@FormParam("id") Integer id, String nome) {
-        MatriculaEscola m = new MatriculaEscola();
-        m.setId(id);
-        m.setName(nome);
-        return m;
+    @GET
+    @Path("/findByEscolas/{name}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getString(@PathParam("name") String name){
+        return name;
     }
+    // public static void findById(ArrayList<MatriculaEscola> listaMatriculasEscolas) {
+    //     //return matriculasEscolasService.findById(id);
+    //     for (MatriculaEscola escolaId : listaMatriculasEscolas) {
+    //         if (escolaId.getName().equals(name)) {
+    //             JOptionPane.showMessageDialog(null, "Escola localizada: " + escolaId.toString());
+    //             flag = true;
+    //         }
+    //     }
+    //     if (!flag)
+	// 			JOptionPane.showMessageDialog(null, "Escola inexistente!");
+    // }
 }
