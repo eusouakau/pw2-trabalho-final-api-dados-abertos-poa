@@ -9,10 +9,11 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter 
-public class Serivdor  extends PanacheEntity{
-
-    public Serivdor() {
-
+public class Servidor  extends PanacheEntity{
+    private String origem;
+    public Servidor(String origem) {
+        this.origem = origem;
     }
-    
-}                   
+        
+}
+                      
