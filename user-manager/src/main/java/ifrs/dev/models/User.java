@@ -30,7 +30,4 @@ public class User extends PanacheEntity{
         this.password = password;
     }
 
-
-
-
 }
