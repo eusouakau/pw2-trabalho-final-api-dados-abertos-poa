@@ -2,8 +2,7 @@ package ifrs.dev;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -17,9 +16,8 @@ import ifrs.dev.models.Servidor;
 @RegisterRestClient
 public interface ServidoresAtivosService {
     
-    @POST
-    @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/findByOrigem")
     public List<Servidor> findByOrigem(@QueryParam("origem") String origem);
 }
