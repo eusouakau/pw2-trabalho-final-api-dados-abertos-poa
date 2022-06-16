@@ -9,7 +9,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import ifrs.dev.models.Servidor;
+import io.vertx.core.json.JsonObject;
 import ifrs.dev.ServidoresAtivosService;
 
 
@@ -17,7 +20,15 @@ import ifrs.dev.ServidoresAtivosService;
 public class ServidoresAtivosResources {
 
     @Inject
+    @RestClient
     ServidoresAtivosService servidoresAtivosService;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getAll")
+    public JsonObject getAllServidoresAtivos() {
+        return servidoresAtivosService.getAll();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
