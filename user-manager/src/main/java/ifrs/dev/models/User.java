@@ -17,17 +17,19 @@ public class User extends PanacheEntity{
     private Date birthDate;
     private String email;
     private String password;
+    private long id;
     
 
     public User() {
       
     }
     
-    public User(String name, Date birthDate, String email, String password) {
+    public User(String name, Date birthDate, String email, String password, long id) {
         this.name = name;
         this.birthDate = birthDate;
         this.email = email;
         this.password = password;
+        this.id = id;
     }
 
 }
