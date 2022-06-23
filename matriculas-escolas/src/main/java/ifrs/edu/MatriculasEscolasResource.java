@@ -1,9 +1,6 @@
 package ifrs.edu;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
-import javax.swing.JOptionPane;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
