@@ -15,7 +15,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface MatriculasEscolasService {
     
     @GET
-    @Path("/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&")
+    @Path("/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&fields=nome")
     @Produces(MediaType.APPLICATION_JSON)
     public List<MatriculasEscolas> findByName(@QueryParam("nome") String nome);
 }
