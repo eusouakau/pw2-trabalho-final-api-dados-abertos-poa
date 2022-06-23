@@ -10,7 +10,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import io.vertx.core.json.JsonObject;
 
-@RegisterRestClient
+@RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/cadastro_escolas.json")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CadastroEscolasService {
 
@@ -20,6 +20,5 @@ public interface CadastroEscolasService {
             @QueryParam("filter=[+_id]") String id);
 
     @GET
-    public JsonObject getAll(
-            @QueryParam("resource_id") String resource_id);
+    public String getAll();
 }
