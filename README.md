@@ -21,3 +21,9 @@ https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5b5bc272-6
 https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&filters={"codigo":"250"}&fields=nome
 
 https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&fields
+
+## Dados
+cadastro-escolas : https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/cadastro_escolas.json          
+matrículas-escolas : https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/matriculas_escolas.json              
+servidores-ativos: https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/servidores_ativos.json
+
