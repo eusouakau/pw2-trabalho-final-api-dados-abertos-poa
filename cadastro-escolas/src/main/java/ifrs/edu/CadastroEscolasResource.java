@@ -30,7 +30,7 @@ public class CadastroEscolasResource {
 
     @GET
     @Path("/all")
-    public JsonObject getAllCE() {
-        return cadastroEscolasService.getAll(resource_id);
+    public String getAllCE() {
+        return cadastroEscolasService.getAll();
     }
 }
