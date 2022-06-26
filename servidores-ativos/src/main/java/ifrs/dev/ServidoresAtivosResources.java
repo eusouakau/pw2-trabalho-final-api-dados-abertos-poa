@@ -13,8 +13,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import ifrs.dev.models.Servidor;
 import io.vertx.core.json.JsonObject;
-import ifrs.dev.ServidoresAtivosService;
-
 
 @Path("/servidores-ativos")
 public class ServidoresAtivosResources {
