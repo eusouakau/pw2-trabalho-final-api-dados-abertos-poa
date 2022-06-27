@@ -2,6 +2,8 @@
 
 ## Sites da API
 ## Matriculas Escolas
+https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809
+
 http://datapoa.com.br/dataset/sie/resource/5b5bc272-6666-4d24-8ddd-138fea511809
 
 ## Cadastro Escolas
