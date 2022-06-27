@@ -3,9 +3,13 @@ package ifrs.dev.services;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 
 import ifrs.dev.exception.Exception;
 import ifrs.dev.models.User;
@@ -16,12 +20,19 @@ public class UserService {
     
     @Inject
     UserRepository userRepository;
+    
+    @Inject
+    @Claim(standard = Claims.full_name)
+    String fullName;
 
+    @Transactional
+    @RolesAllowed("User")
     public List<User> getAllUsers() {
         return userRepository.listAll();
     }
 
     @Transactional
+    @RolesAllowed({ "User" })
     public User getUserById(long id) {
         return userRepository.findById(id);
     }
@@ -34,6 +45,7 @@ public class UserService {
     }
 
     @Transactional
+    @RolesAllowed({ "User" })
     public User updateUser(User user) {
         User userTemp = userRepository.findById(user.getId());
         if(Objects.equals(userTemp, null)){
@@ -50,6 +62,7 @@ public class UserService {
     }
 
     @Transactional
+    @RolesAllowed({ "User" })
     public Boolean deleteUser(long id) {
         User userTemp = userRepository.findById(id);
         if(Objects.equals(userTemp, null)){
