@@ -1,24 +1,21 @@
 package ifrs.edu;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
-import io.vertx.core.json.JsonObject;
-
-@RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/cadastro_escolas.json")
+@RegisterRestClient(baseUri = "https://dadosabertos.poa.br/api/3/action/datastore_search")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CadastroEscolasService {
 
-    @GET
-    public JsonObject findById(
-            @QueryParam("resource_id") String resource_id,
-            @QueryParam("filter=[+_id]") String id);
+  @GET
+  public String getCEByCodigo(
+    @QueryParam("resource_id") String resource_id,
+    @QueryParam("filters") String _codigo);
 
-    @GET
-    public String getAll();
+  @GET
+  public String getAll(@QueryParam("resource_id") String resource_id);
 }
