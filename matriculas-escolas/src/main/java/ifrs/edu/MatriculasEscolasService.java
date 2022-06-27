@@ -16,20 +16,34 @@ import io.vertx.core.json.JsonObject;
 @RegisterRestClient
 @Produces(MediaType.APPLICATION_JSON)
 public interface MatriculasEscolasService {
-    
-    static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
-    
+
+    // static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("datastore_search")
+    public JsonObject getAll(
+            @QueryParam("resource_id") String resource_id);
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("datastore_search")
     public JsonObject datastore_search(
             @QueryParam("resource_id") String resource_id,
+            @QueryParam("fields") String codigo,
             @QueryParam("fields") String nome,
-            @QueryParam("fields") String codigo
+            @QueryParam("fields") String total            
     // @QueryParam("filters") Integer codigo,
     // @PathParam("{\"codigo\":codigo}") Integer codigo
     // @QueryParam("filters={\"codigo\":\"{codigo}\"}") Integer codigo
     );
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("datastore_search")
+    public JsonObject datastore_search_pesquisar(
+            @QueryParam("resource_id") String resource_id,
+            @QueryParam("filters") String filters);
 
     // static String resource_id =
     // "datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809";
@@ -43,12 +57,4 @@ public interface MatriculasEscolasService {
     // @QueryParam("resource_id") String resource_id,
     // @QueryParam("filter=[+_id]") String id
     // );
-
-    @GET
-    // @Path("datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809")
-    // @Path("/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809")
-    // public String getAll();
-    public JsonObject getAll(
-    // @QueryParam("resource_id") String resource_id
-    );
 }
