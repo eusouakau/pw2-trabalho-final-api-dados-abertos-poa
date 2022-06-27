@@ -21,25 +21,46 @@ public class MatriculasEscolasResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("datastore_search_Local/nomes")
-    public JsonObject listarNomesMatriculasEscolas(
+    @Path("datastore_search_Local/all")
+    public JsonObject getAllMA(
+        @QueryParam("resource_id") String resource_id
+    ) {
+        resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
+        return matriculasEscolasService.getAll(resource_id);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("datastore_search_Local/matriculas-por-escolas")
+    public JsonObject listarMatriculasEscolas(
             @QueryParam("resource_id") String resource_id,
+            @QueryParam("fields") String codigo,
             @QueryParam("fields") String nome,
-            @QueryParam("fields") String codigo
+            @QueryParam("fields") String total            
     // @QueryParam("filters") @PathParam("{\"codigo\": " + "{codigo}" + "}") Integer
     // codigo,
     ) {
         resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
-        nome = "nome";
         codigo = "codigo";
+        nome = "nome";
+        total = "total";        
         // filters = "";
-        return matriculasEscolasService.datastore_search(resource_id, nome, codigo);
+        return matriculasEscolasService.datastore_search(resource_id, codigo, nome, total);
     }
 
     @GET
-    @Path("/all")
-    public JsonObject getAllMA() {
-        return matriculasEscolasService.getAll();
+    //@Produces(MediaType.APPLICATION_JSON)
+    @Path("datastore_search_Local/matriculas-por-escolas/filters")
+    public JsonObject pesquisarCodigoMatriculasEscolas(
+            @QueryParam("resource_id") String resource_id,            
+            @QueryParam("filters") String filters
+    // @QueryParam("filters") @PathParam("{\"codigo\": " + "{codigo}" + "}") Integer
+    // codigo,
+    ) {
+        resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";       
+        //filters = "filters";
+        // filters = "";
+        return matriculasEscolasService.datastore_search_pesquisar(resource_id, filters);
     }
 
     // static boolean flag = false;
