@@ -9,52 +9,32 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import io.vertx.core.json.JsonObject;
 
+// Caso a API caia novamente, utilizar o código abaixo que os dados estão mokados
 //@RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/matriculas_escolas.json")
-//@RegisterRestClient(baseUri = "https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809")
-//@Path("datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809")
-@Path("/action")
+@Path("/action/datastore_search")
 @RegisterRestClient
 @Produces(MediaType.APPLICATION_JSON)
 public interface MatriculasEscolasService {
 
-    // static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
+        // Id da API de Matrículas Escolas
+        // static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("datastore_search")
-    public JsonObject getAll(
-            @QueryParam("resource_id") String resource_id);
+        @GET
+        @Produces(MediaType.APPLICATION_JSON)
+        public JsonObject getAll(
+                        @QueryParam("resource_id") String resource_id);
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("datastore_search")
-    public JsonObject datastore_search(
-            @QueryParam("resource_id") String resource_id,
-            @QueryParam("fields") String codigo,
-            @QueryParam("fields") String nome,
-            @QueryParam("fields") String total            
-    // @QueryParam("filters") Integer codigo,
-    // @PathParam("{\"codigo\":codigo}") Integer codigo
-    // @QueryParam("filters={\"codigo\":\"{codigo}\"}") Integer codigo
-    );
+        @GET
+        @Produces(MediaType.APPLICATION_JSON)
+        public JsonObject getListarMatriculas(
+                        @QueryParam("resource_id") String resource_id,
+                        @QueryParam("fields") String codigo,
+                        @QueryParam("fields") String nome,
+                        @QueryParam("fields") String total);
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("datastore_search")
-    public JsonObject datastore_search_pesquisar(
-            @QueryParam("resource_id") String resource_id,
-            @QueryParam("filters") String filters);
-
-    // static String resource_id =
-    // "datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809";
-    // @GET
-    // @Path("/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809&q={name}")
-    // public MatriculaEscola findById(@PathParam("name") String name);
-    // @GET
-    // //public String findById(
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public JsonObject findById(
-    // @QueryParam("resource_id") String resource_id,
-    // @QueryParam("filter=[+_id]") String id
-    // );
+        @GET
+        @Produces(MediaType.APPLICATION_JSON)
+        public JsonObject getAtributoMatriculasEscolas(
+                        @QueryParam("resource_id") String resource_id,
+                        @QueryParam("filters") String filters);
 }
