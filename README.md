@@ -4,6 +4,21 @@
 ## Matriculas Escolas
 https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5b5bc272-6666-4d24-8ddd-138fea511809
 
+## Swagger UI
+http://localhost:3333/q/swagger-ui/#/
+
+## Chamadas
+http://localhost:3333/matriculas-escolas/datastore_search_Local/all
+
+http://localhost:3333/matriculas-escolas/datastore_search_Local/listar-matriculas
+
+## Ex. de pesquisa por código
+http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
+
+## Ex. de pesquisa por total
+http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-atributo-matriculas?filters=%7B%22total%22%3A155%7D
+
+## Acesso ao Site da API Matriculas Escolas
 http://datapoa.com.br/dataset/sie/resource/5b5bc272-6666-4d24-8ddd-138fea511809
 
 ## Cadastro Escolas
