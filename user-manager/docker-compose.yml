@@ -1,0 +1,16 @@
+version: "3.7"
+volumes:
+  database:
+services:
+  db:
+    image: mysql:latest
+    container_name: dap-api
+    ports:
+      - 3306:3306
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=dap-api
+      - MYSQL_DATABASE=dap-api
+      - MYSQL_USER=dap-api
+      - MYSQL_PASSWORD=dap-api
