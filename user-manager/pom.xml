@@ -37,6 +37,10 @@
       <artifactId>quarkus-hibernate-orm-panache</artifactId>
     </dependency>
     <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
     </dependency>
@@ -73,6 +77,9 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-oidc-token-propagation</artifactId>
+    </dependency>
+    <dependency> <groupId>io.quarkus</groupId> 
+      <artifactId>quarkus-smallrye-openapi</artifactId> 
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
