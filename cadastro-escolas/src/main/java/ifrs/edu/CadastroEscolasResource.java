@@ -16,24 +16,50 @@ import io.vertx.core.json.JsonObject;
 public class CadastroEscolasResource {
 
   static String resource_id = "5579bc8e-1e47-47ef-a06e-9f08da28dec8";
+  JsonObject obj = new JsonObject();
 
   @Inject
   @RestClient
   CadastroEscolasService cadastroEscolasService;
 
   @GET
-  @Path("getCEByCodigo/{_codigo}")
-  public String getCEByCodigo(@PathParam("_codigo") Integer _codigo) {
-    JsonObject obj = new JsonObject();
-    obj.put("codigo", _codigo);
-    String serialized = obj.toString();
-
-    return cadastroEscolasService.getCEByCodigo(resource_id, serialized);
+  @Path("all")
+  public JsonObject getAllCE() {
+    obj.put("cadastroEscolas",
+        cadastroEscolasService
+            .getAll(resource_id)
+            .getJsonObject("result")
+            .getValue("records"));
+    return obj;
   }
 
   @GET
-  @Path("all")
-  public String getAllCE() {
-    return cadastroEscolasService.getAll(resource_id);
+  @Path("getCEByCodigo/{_codigo}")
+  public JsonObject getCEByCodigo(@PathParam("_codigo") Integer _codigo) {
+    obj.put("codigo", _codigo);
+    String serialized = obj.toString();
+    obj.clear();
+    obj.put("cadastroEscolas",
+        cadastroEscolasService
+            .getCEByCodigo(resource_id, serialized)
+            .getJsonObject("result")
+            .getValue("records"));
+    return obj;
+  }
+
+  @GET
+  @Path("getCEByNome/{_nome}")
+  public JsonObject getCEByNome(@PathParam("_nome") String _nome) {
+    // WHERE nome LIKE 'AMIGO'
+    // where nome like "amigo"
+    // obj.put("nome", _nome);
+    // String serialized = obj.toString();
+    String serialized = "=" + _nome;
+    obj.put("cadastroEscolas",
+        cadastroEscolasService
+            .getCEByNome(resource_id, serialized)
+            .getJsonObject("result")
+            .getValue("records"));
+    return obj;
   }
 }
