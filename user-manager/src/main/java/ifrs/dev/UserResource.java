@@ -34,6 +34,12 @@ public class UserResource {
     public Response getUserById(@PathParam("id") long id) {
         return Response.status(Status.OK).entity(userService.getUserById(id)).build();
     }
+
+    @GET
+    @Path("/{name}")
+    public Response getUserByName(@PathParam("name") String name) {
+        return Response.status(Status.OK).entity(userService.getUserByName(name)).build();
+    }
     
     @POST
     public Response createUser(User user) {
@@ -41,13 +47,13 @@ public class UserResource {
     }
 
     @PUT
-    @Path("/update/{id}")
+    @Path("/atualizar/{id}")
     public Response updateUser(@PathParam("id") Long id, User user) {
         return Response.status(Status.CREATED).entity(userService.updateUser(user)).build();
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/deletar/{id}")
     public Response deleteUser(@PathParam("id") Long id) {
         return Response.status(Status.OK).entity(userService.deleteUser(id)).build();
     }

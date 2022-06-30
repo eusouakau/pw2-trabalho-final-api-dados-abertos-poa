@@ -38,6 +38,12 @@ public class UserService {
     }
 
     @Transactional
+    @RolesAllowed({ "User" })
+    public User getUserByName(String name) {
+        return userRepository.findByName(name);
+    }
+
+    @Transactional
     public User createUser(User user) {
         userRepository.persist(user);
 
