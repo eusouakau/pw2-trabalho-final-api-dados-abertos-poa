@@ -47,7 +47,12 @@ public class UserService {
     @Transactional
     @PermitAll
     public User createUser(User user) {
-        userRepository.persist(user);
+        
+        if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
+            throw new Exception("Email já cadastrado");
+        } else {
+             userRepository.persist(user);
+        }
 
         return user;
     }
