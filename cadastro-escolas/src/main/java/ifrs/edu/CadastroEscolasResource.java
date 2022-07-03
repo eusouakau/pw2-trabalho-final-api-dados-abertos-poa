@@ -40,4 +40,24 @@ public class CadastroEscolasResource {
     }
     return newObj;
   }
+
+  @GET
+  @Path("getQuantidade/")
+  public String getQuantidadeByDepAdm() {
+    Integer totalMunicipal = 0;
+    Integer totalPrivado = 0;
+
+    for (int i = 0; i < getAllCE().size(); i++) {
+      String tipo = getAllCE().getJsonObject(i).getValue("dep_administrativa").toString();
+      System.out.println(getAllCE().getJsonObject(i).getValue("dep_administrativa").toString());
+      if (tipo.equals("MUNICIPAL")) {
+        totalMunicipal += 1;
+      }
+      if (tipo.equals("PRIVADO")) {
+        totalPrivado += 1;
+      }
+    }
+    String result = "Total Municipal: " + totalMunicipal.toString() + "\nTotal Privado: " + totalPrivado.toString();
+    return result;
+  }
 }
