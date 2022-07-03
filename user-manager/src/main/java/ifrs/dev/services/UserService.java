@@ -59,17 +59,15 @@ public class UserService {
 
     @Transactional
     @PermitAll
-    public User login(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if (Objects.nonNull(user)) {
-            if (user.getPassword().equals(password)) {
-                return user;
-            } else {
-                throw new Exception("Invalid password");
-            }
-        } else {
+    public User login(User user) {
+        User userFound = userRepository.findByEmail(user.getEmail());
+        if (Objects.isNull(userFound)) {
             throw new Exception("User not found");
         }
+        if (!userFound.getPassword().equals(user.getPassword())) {
+            throw new Exception("Password not match");
+        }
+        return userFound;
     }
 
 
