@@ -22,14 +22,24 @@ public class ServidoresAtivosResources {
   ServidoresAtivosService ServidoresAtivosService;
   // a base de dados é muito grande e pode ocorrer uma demora para carregar todos os dados.
   @GET
-  @Path("all")
+  @Path("/")
   public JsonArray getAllSA() {
     return ServidoresAtivosService.getAll();
   }
 
-  // smed está hardcoded pois só interessa informções desta origem
   @GET
-  @Path("origem/SMED")
+  @Path("/total-servidores-ativos")
+  public String getTotalServidoresAtivos() {
+    Integer total = 0;
+    for (int i = 0; i < getAllSA().size(); i++) {
+      total += 1;
+    }
+    return "Total de Servidores Ativos: " + total.toString();
+  }
+    
+
+  @GET
+  @Path("origem/{origem}")
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
     JsonArray newArray = new JsonArray();
     JsonArray array = getAllSA();
@@ -39,6 +49,7 @@ public class ServidoresAtivosResources {
         newArray.add(array.getJsonObject(i));
       }
     }
+
 
     return newArray;
   }
