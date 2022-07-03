@@ -9,13 +9,12 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 @Path("/cadastro-escolas")
 @Produces(MediaType.APPLICATION_JSON)
 public class CadastroEscolasResource {
-
-  static String resource_id = "5579bc8e-1e47-47ef-a06e-9f08da28dec8";
   JsonObject obj = new JsonObject();
 
   @Inject
@@ -24,42 +23,21 @@ public class CadastroEscolasResource {
 
   @GET
   @Path("all")
-  public JsonObject getAllCE() {
-    obj.put("cadastroEscolas",
-        cadastroEscolasService
-            .getAll(resource_id)
-            .getJsonObject("result")
-            .getValue("records"));
-    return obj;
+  public JsonArray getAllCE() {
+    return cadastroEscolasService.getAll();
   }
 
   @GET
   @Path("getCEByCodigo/{_codigo}")
   public JsonObject getCEByCodigo(@PathParam("_codigo") Integer _codigo) {
-    obj.put("codigo", _codigo);
-    String serialized = obj.toString();
-    obj.clear();
-    obj.put("cadastroEscolas",
-        cadastroEscolasService
-            .getCEByCodigo(resource_id, serialized)
-            .getJsonObject("result")
-            .getValue("records"));
-    return obj;
-  }
+    JsonObject newObj = new JsonObject();
 
-  @GET
-  @Path("getCEByNome/{_nome}")
-  public JsonObject getCEByNome(@PathParam("_nome") String _nome) {
-    // WHERE nome LIKE 'AMIGO'
-    // where nome like "amigo"
-    // obj.put("nome", _nome);
-    // String serialized = obj.toString();
-    String serialized = "=" + _nome;
-    obj.put("cadastroEscolas",
-        cadastroEscolasService
-            .getCEByNome(resource_id, serialized)
-            .getJsonObject("result")
-            .getValue("records"));
-    return obj;
+    for (int i = 0; i < getAllCE().size(); i++) {
+      if (getAllCE().getJsonObject(i).getValue("codigo").toString()
+          .equalsIgnoreCase(_codigo.toString())) {
+        return getAllCE().getJsonObject(i);
+      }
+    }
+    return newObj;
   }
 }
