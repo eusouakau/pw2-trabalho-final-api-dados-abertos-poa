@@ -3,6 +3,7 @@ package ifrs.edu;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -125,45 +126,74 @@ public class MatriculasEscolasResource {
                 return obj;
         }
 
-        // static boolean flag = false;
-        // @GET
-        // @Path("datastore_search_Local/{nome}")
-        // public JsonObject getByNomeMatriculaEscola(
-        // @PathParam("nome") String nome
-        // ){
+        @GET
+        @Path("/total-matriculas")
+        public Integer totalMatriculadosEmMatriculasEscolas(
+                        @QueryParam("fields") String totais) {
+                Integer totalMatriculas = 0;
+                totais = "total";
+                /*
+                 * Limpa o objeto Json antes de trazer os novos objetos
+                 */
+                obj.clear();
+                /*
+                 * Traz o total de matrículas em um objeto limpo
+                 */
+                obj.put("matriculas-escolas-total",
+                                matriculasEscolasService.getTotalMatriculas(resource_id, totais)
+                                                .getJsonObject("result").getValue("records"));
 
-        // JsonObject obj2 = getAllMatriculas();
-        // for(JsonObject matricula : obj2.getJsonObject("nome").getString("nome"))
-        // if(obj2.containsKey(nome)){
-        // flag = true;
-        // obj2.getString("nome");
-        // }
-        // if(!flag){
-        // flag = false;
-        // System.out.println("Escola inexistente.");
-        // }
-        // //getAllMatriculas().getValue("matriculas-escolas-all").forEach(JsonObject
-        // matricula -> matricula.getValue("nome"));
-        // return ;
-        // }
+                for (int i = 0; i < obj.getJsonArray("matriculas-escolas-total").size(); i++) {
+                        Integer a = totalMatriculas;
+                        Integer b = (Integer) obj.getJsonArray("matriculas-escolas-total").getJsonObject(i)
+                                        .getValue("total");
+                        totalMatriculas = a + b;
+                }
 
-        // static boolean flag = false;
-        // @GET
-        // @Path("/all")
-        // public JsonObject getAllMatrEsc(){
-        // return matriculasEscolasService.getAll(resource_id);
-        // }
-        // public static void findById(ArrayList<MatriculaEscola>
-        // listaMatriculasEscolas) {
-        // //return matriculasEscolasService.findById(id);
-        // for (MatriculaEscola escolaId : listaMatriculasEscolas) {
-        // if (escolaId.getName().equals(name)) {
-        // JOptionPane.showMessageDialog(null, "Escola localizada: " +
-        // escolaId.toString());
-        // flag = true;
-        // }
-        // }
-        // if (!flag)
-        // JOptionPane.showMessageDialog(null, "Escola inexistente!");
-        // }
+                /*
+                 * Retorna a soma do atributo: total de matriculas por escola
+                 */
+                return totalMatriculas;
+        }
+
+        /*
+         * Como o Get e Path funcionam para o filters:
+         * http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-
+         * atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
+         */
+        @GET
+        @Path("/filtrar-codigo-matriculas/{_codigo}")
+        public JsonObject pesquisarCodigoMatriculasEscolas(
+                        /*
+                         * Tentativa frustrada de filtrar por atributo - fica para história e registro
+                         * 
+                         * @QueryParam("filters") @PathParam("{\"codigo\": " + "{codigo}" + "}")
+                         * Integer codigo
+                         */
+                        @PathParam("_codigo") Integer _codigo) {
+                /*
+                 * Limpa o objeto Json antes de trazer os novos objetos
+                 */
+                obj.clear();
+                /*
+                 * Traz somente um objeto da API de Matrículas das Escolas em um objeto limpo
+                 */
+                obj.put("codigo", _codigo);
+
+                String serializad = obj.toString();
+                obj.clear();
+                obj.put("matricula-escola",
+                                matriculasEscolasService.getAtributoMatriculasEscolas(resource_id, serializad)
+                                                .getJsonObject("result").getValue("records"));
+                /*
+                 * Retorna o objeto Json somente com um objeto da API de Matrículas Escolas,
+                 * dentro de "records", utilizando o "filters", e que contêm todos os
+                 * atributos do objeto filtrado: _id,
+                 * data_extracao, codigo, nome, ei_creche_parcial, ei_creche_integral,
+                 * ei_creche, ei_pre_parcial, ei_pre_integral,
+                 * ei_pre, ef_ciclos_parcial, ef_ciclos_integral, ef_ciclos, ef_eja,
+                 * ensino_medio, normal_magisterio, profissionalizante, total
+                 */
+                return obj;
+        }
 }
