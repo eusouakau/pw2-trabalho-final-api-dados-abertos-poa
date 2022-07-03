@@ -1,11 +1,6 @@
 package ifrs.edu;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
 import javax.inject.Inject;
-import javax.swing.text.AttributeSet.CharacterAttribute;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,8 +8,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /*
@@ -187,7 +180,6 @@ public class MatriculasEscolasResource {
                  */
                 obj.put("codigo", _codigo);
 
-                
                 String serializad = obj.toString();
                 obj.clear();
                 obj.put("matricula-escola",
