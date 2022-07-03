@@ -20,24 +20,48 @@ public class ServidoresAtivosResources {
   @Inject
   @RestClient
   ServidoresAtivosService ServidoresAtivosService;
-
+  // a base de dados é muito grande e pode ocorrer uma demora para carregar todos os dados.
   @GET
-  @Path("all")
+  @Path("/")
   public JsonArray getAllSA() {
     return ServidoresAtivosService.getAll();
   }
 
   @GET
+  @Path("/total-servidores-ativos")
+  public String getTotalServidoresAtivos() {
+    Integer total = 0;
+    for (int i = 0; i < getAllSA().size(); i++) {
+      total += 1;
+    }
+    return "Total de Servidores Ativos: " + total.toString();
+  }
+    
+
+  @GET
   @Path("origem/{origem}")
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
     JsonArray newArray = new JsonArray();
+    JsonArray array = getAllSA();
 
-    for (int i = 0; i < getAllSA().size(); i++) {
-      if (getAllSA().getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
-        newArray.add(getAllSA().getJsonObject(i));
+    for (int i = 0; i < array.size(); i++) {
+      if (array.getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
+        newArray.add(array.getJsonObject(i));
       }
     }
 
+
     return newArray;
   }
+
+  @GET
+  @Path("/total-servidores-ativos/{origem}")
+  public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
+    Integer total = 0;
+    for (int i = 0; i < getByOrigin(origem).size(); i++) {
+      total += 1;
+    }
+    return "Total de Servidores Ativos da Origem: " + origem + ": " + total.toString();
+  }
+
 }
