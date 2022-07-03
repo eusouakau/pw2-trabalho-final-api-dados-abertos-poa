@@ -47,9 +47,9 @@ public class UserResource {
     }
 
     @POST
-    @Path("/login/{email}/{password}")
-    public Response login(String email, String password) {
-        return Response.status(Status.OK).entity(userService.login(email, password)).build();
+    @Path("/login")
+    public Response login(User user) {
+        return Response.status(Status.OK).entity(userService.login(user)).build();
     }
 
     @PUT
