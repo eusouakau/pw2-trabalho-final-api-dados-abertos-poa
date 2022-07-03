@@ -27,4 +27,9 @@ public class ServidoresAtivosResources {
     return ServidoresAtivosService.getAll();
   }
 
+  @GET
+  @Path("origem/{origem}")
+  public JsonArray getByOrigin(@PathParam("origem") String origem) {
+    return ServidoresAtivosService.getByOrigin(origem);
+  }
 }
