@@ -1,28 +1,20 @@
 package ifrs.dev;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import ifrs.dev.models.Servidor;
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.json.JsonArray;
 
-@Path("/api")
-@RegisterRestClient
+@RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/servidores_ativos.json")
+@Produces(MediaType.APPLICATION_JSON)
 public interface ServidoresAtivosService {
+  @GET
+  public JsonArray getAll();
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getAll();
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/findByOrigem")
-    public List<Servidor> findByOrigem(@QueryParam("origem") String origem);
+  @GET
+  public JsonArray getByOrigin(@PathParam("origem") String origem);
 }
