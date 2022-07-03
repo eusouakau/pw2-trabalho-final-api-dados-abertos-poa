@@ -1,6 +1,7 @@
 package ifrs.dev;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -13,4 +14,7 @@ import io.vertx.core.json.JsonArray;
 public interface ServidoresAtivosService {
   @GET
   public JsonArray getAll();
+
+  @GET
+  public JsonArray getByOrigin(@PathParam("origem") String origem);
 }
