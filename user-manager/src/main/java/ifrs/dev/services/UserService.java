@@ -3,6 +3,7 @@ package ifrs.dev.services;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -44,11 +45,33 @@ public class UserService {
     }
 
     @Transactional
+    @PermitAll
     public User createUser(User user) {
-        userRepository.persist(user);
+
+        if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
+            throw new Exception("Email already exists");
+        } else {
+             userRepository.persist(user);
+        }
 
         return user;
     }
+
+    @Transactional
+    @PermitAll
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (Objects.nonNull(user)) {
+            if (user.getPassword().equals(password)) {
+                return user;
+            } else {
+                throw new Exception("Invalid password");
+            }
+        } else {
+            throw new Exception("User not found");
+        }
+    }
+
 
     @Transactional
     @RolesAllowed({ "User" })

@@ -21,6 +21,26 @@ http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-atributo
 ## Acesso ao Site da API Matriculas Escolas
 http://datapoa.com.br/dataset/sie/resource/5b5bc272-6666-4d24-8ddd-138fea511809
 
+## Filtrar Escolas - passar por GET o atributo desejado, o valor dele e retornar somente um objeto. Ex:
+        ` "_id": 1,`
+        ` "data_extracao": "2022-06-01T01:40:22",`
+        ` "codigo": 101,`
+        ` "nome": "EMEI JP CANTINHO AMIGO ",`
+        ` "ei_creche_parcial": 0,`
+        ` "ei_creche_integral": 0,`
+        ` "ei_creche": 0,`
+        ` "ei_pre_parcial": 77,`
+        ` "ei_pre_integral": 0,`
+        ` "ei_pre": 77,`
+        ` "ef_ciclos_parcial": 0,`
+        ` "ef_ciclos_integral": 0,`
+        ` "ef_ciclos": 0,`
+        ` "ef_eja": 0,`
+        ` "ensino_medio": 0,`
+        ` "normal_magisterio": 0,`
+        ` "profissionalizante": 0,`
+        ` "total": 77`
+
 ## Cadastro Escolas
 https://dadosabertos.poa.br/api/3/action/datastore_search?resource_id=5579bc8e-1e47-47ef-a06e-9f08da28dec8
 

@@ -46,6 +46,12 @@ public class UserResource {
         return Response.status(Status.CREATED).entity(userService.createUser(user)).build();
     }
 
+    @POST
+    @Path("/login/{email}/{password}")
+    public Response login(String email, String password) {
+        return Response.status(Status.OK).entity(userService.login(email, password)).build();
+    }
+
     @PUT
     @Path("/atualizar/{id}")
     public Response updateUser(@PathParam("id") Long id, User user) {
