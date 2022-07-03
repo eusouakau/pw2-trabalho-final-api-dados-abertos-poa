@@ -9,15 +9,19 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import io.vertx.core.json.JsonObject;
 
-// Caso a API caia novamente, utilizar o código abaixo que os dados estão mokados
-//@RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/matriculas_escolas.json")
+/*
+ * Caso a API caia novamente, utilizar o código abaixo que os dados estão mokados
+ * @RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/matriculas_escolas.json") 
+*/
 @Path("/action/datastore_search")
 @RegisterRestClient
 @Produces(MediaType.APPLICATION_JSON)
 public interface MatriculasEscolasService {
 
-        // Id da API de Matrículas Escolas
-        // static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
+        /*
+         * Id da API de Matrículas Escolas
+         * static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
+         */
         @QueryParam("resource_id")
         String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
 
