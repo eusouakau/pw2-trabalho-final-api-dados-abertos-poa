@@ -20,21 +20,23 @@ public class ServidoresAtivosResources {
   @Inject
   @RestClient
   ServidoresAtivosService ServidoresAtivosService;
-
+  // a base de dados é muito grande e pode ocorrer uma demora para carregar todos os dados.
   @GET
   @Path("all")
   public JsonArray getAllSA() {
     return ServidoresAtivosService.getAll();
   }
 
+  // smed está hardcoded pois só interessa informções desta origem
   @GET
-  @Path("origem/{origem}")
+  @Path("origem/SMED")
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
     JsonArray newArray = new JsonArray();
+    JsonArray array = getAllSA();
 
-    for (int i = 0; i < getAllSA().size(); i++) {
-      if (getAllSA().getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
-        newArray.add(getAllSA().getJsonObject(i));
+    for (int i = 0; i < array.size(); i++) {
+      if (array.getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
+        newArray.add(array.getJsonObject(i));
       }
     }
 
