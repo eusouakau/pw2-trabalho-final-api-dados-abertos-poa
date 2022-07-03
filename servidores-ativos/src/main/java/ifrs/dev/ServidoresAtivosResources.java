@@ -30,6 +30,14 @@ public class ServidoresAtivosResources {
   @GET
   @Path("origem/{origem}")
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
-    return ServidoresAtivosService.getByOrigin(origem);
+    JsonArray newArray = new JsonArray();
+
+    for (int i = 0; i < getAllSA().size(); i++) {
+      if (getAllSA().getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
+        newArray.add(getAllSA().getJsonObject(i));
+      }
+    }
+
+    return newArray;
   }
 }
