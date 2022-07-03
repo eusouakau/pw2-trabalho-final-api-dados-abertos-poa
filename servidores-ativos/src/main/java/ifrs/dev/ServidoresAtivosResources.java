@@ -53,4 +53,15 @@ public class ServidoresAtivosResources {
 
     return newArray;
   }
+
+  @GET
+  @Path("/total-servidores-ativos/{origem}")
+  public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
+    Integer total = 0;
+    for (int i = 0; i < getByOrigin(origem).size(); i++) {
+      total += 1;
+    }
+    return "Total de Servidores Ativos da Origem: " + origem + ": " + total.toString();
+  }
+
 }
