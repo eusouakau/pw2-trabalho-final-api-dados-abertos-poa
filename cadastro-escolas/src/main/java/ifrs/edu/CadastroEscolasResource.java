@@ -15,7 +15,6 @@ import io.vertx.core.json.JsonObject;
 @Path("/cadastro-escolas")
 @Produces(MediaType.APPLICATION_JSON)
 public class CadastroEscolasResource {
-  JsonObject obj = new JsonObject();
 
   @Inject
   @RestClient
@@ -49,7 +48,6 @@ public class CadastroEscolasResource {
 
     for (int i = 0; i < getAllCE().size(); i++) {
       String tipo = getAllCE().getJsonObject(i).getValue("dep_administrativa").toString();
-      System.out.println(getAllCE().getJsonObject(i).getValue("dep_administrativa").toString());
       if (tipo.equals("MUNICIPAL")) {
         totalMunicipal += 1;
       }
@@ -59,5 +57,19 @@ public class CadastroEscolasResource {
     }
     String result = "Total Municipal: " + totalMunicipal.toString() + "\nTotal Privado: " + totalPrivado.toString();
     return result;
+  }
+
+  @GET
+  @Path("findByName/{name}")
+  public JsonArray findByName(@PathParam("name") String name) {
+    JsonArray newArray = new JsonArray();
+
+    for (int i = 0; i < getAllCE().size(); i++) {
+      if (getAllCE().getJsonObject(i).getString("nome").contains(name)) {
+        newArray.add(getAllCE().getJsonObject(i));
+      }
+    }
+
+    return newArray;
   }
 }
