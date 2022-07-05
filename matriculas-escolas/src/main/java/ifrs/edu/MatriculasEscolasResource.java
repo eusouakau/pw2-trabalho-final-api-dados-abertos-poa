@@ -1,5 +1,7 @@
 package ifrs.edu;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.json.JsonException;
 import javax.ws.rs.GET;
@@ -10,6 +12,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /*
@@ -37,7 +41,7 @@ public class MatriculasEscolasResource {
 
         /*
          * Prepara o método para trazer todos os totais das Matriculas das Escolas
-         * Municipais de Porto Alegre
+         * de Porto Alegre
          */
         @GET
         @Path("/all")
@@ -69,7 +73,7 @@ public class MatriculasEscolasResource {
         }
 
         /*
-         * Lista as Matrículas Cadastradas nas Escolas Municipais de Porto Alegre
+         * Lista as Matrículas Cadastradas nas Escolas de Porto Alegre
          */
         @GET
         @Path("/listar-matriculas")
@@ -108,6 +112,9 @@ public class MatriculasEscolasResource {
                 return obj;
         }
 
+        /*
+         * Soma o total das Matrículas Cadastradas nas Escolas de Porto Alegre
+         */
         @GET
         @Path("/total-matriculas")
         @Timeout(1000)
@@ -193,5 +200,133 @@ public class MatriculasEscolasResource {
                         e.printStackTrace();
                 }
                 return obj;
+        }
+
+        /*
+         * Como o Get e Path funcionam para o filters:
+         * http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-
+         * atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
+         */
+        @GET
+        @Path("/filtrar-nome-matriculas-escolas-objetos/{_nome}")
+        @Timeout(17000)
+        public JsonArray pesquisarNomeMatriculasEscolasObjetos(
+                        @PathParam("_nome") String _nome) {
+                JsonArray novoJsonArray = new JsonArray();
+                try {
+                        /*
+                         * Limpa o objeto Json antes de trazer os novos objetos
+                         */
+                        obj.clear();
+
+                        String serializad = obj.toString();
+
+                        obj.clear();
+                        /*
+                         * Traz os resultados da API de matrículas-escolas em um array limpo
+                         */
+                        obj.put("matricula-escola-nome",
+                                        matriculasEscolasService.getAtributoMatriculasEscolas(resource_id, serializad)
+                                                        .getJsonObject("result").getValue("records"));
+                        /*
+                         * Percorre todo o JsonArray
+                         */
+                        for (int i = 0; i < obj.getJsonArray("matricula-escola-nome").size(); i++) {
+                                /*
+                                 * Cria uma variável para inserir o atribuito "nome" que está no Objeto do
+                                 * JsonArray
+                                 */
+                                String valorNomeObjJson = (String) obj.getJsonArray("matricula-escola-nome")
+                                                .getJsonObject(i).getValue("nome");
+
+                                /*
+                                 * Verifica se o atributo "nome" do Objeto do JsonArray contém a palavra
+                                 * pesquisada passada como parâmetro: _nome
+                                 */
+                                if (valorNomeObjJson.contains(_nome.toUpperCase())) {
+                                        /*
+                                         * Adiciona em um JsonArray limpo o Objeto do Json localizado, caso o nome
+                                         * corresponda ao parâmetro enviado
+                                         */
+                                        novoJsonArray.add(obj.getJsonArray("matricula-escola-nome")
+                                                        .getJsonObject(i));
+                                }
+                                // if(!valorNomeObjJson.contains(_nome.toUpperCase())){
+                                // novoJsonArray.add("O nome informado não existe.");
+                                // }
+                        }
+                } catch (NullPointerException nullPointerExcecao) {
+                        nullPointerExcecao.getStackTrace();
+                } catch (JsonException jException) {
+                        jException.getStackTrace();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+                /*
+                 * Retorna o objeto JsonArray somente com o objeto da API de Matrículas Escolas,
+                 * dentro de "records", utilizando o "filters", e que contêm todos os
+                 * atributos do objeto filtrado: _id,
+                 * data_extracao, codigo, nome, ei_creche_parcial, ei_creche_integral,
+                 * ei_creche, ei_pre_parcial, ei_pre_integral,
+                 * ei_pre, ef_ciclos_parcial, ef_ciclos_integral, ef_ciclos, ef_eja,
+                 * ensino_medio, normal_magisterio, profissionalizante, total
+                 */
+                return novoJsonArray;
+        }
+
+        /*
+         * Como o Get e Path funcionam para o filters:
+         * http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-
+         * atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
+         */
+        @GET
+        @Path("/filtrar-nome-matriculas-escolas-nomes/{_nome}")
+        @Timeout(17000)
+        public ArrayList<String> pesquisarNomeMatriculasEscolasNomes(
+                        @PathParam("_nome") String _nome) {
+                ArrayList<String> novoArrayList = new ArrayList<String>();
+                try {
+                        /*
+                         * Limpa o objeto Json antes de trazer os novos objetos
+                         */
+                        obj.clear();
+                        /*
+                         * 
+                         */
+                        String serializad = obj.toString();
+                        obj.clear();
+                        /*
+                         * Traz o resultado da API de matrículas-escolas em um objeto limpo
+                         */
+                        obj.put("matricula-escola-nome",
+                                        matriculasEscolasService.getAtributoMatriculasEscolas(resource_id, serializad)
+                                                        .getJsonObject("result").getValue("records"));
+                        for (int i = 0; i < obj.getJsonArray("matricula-escola-nome").size(); i++) {
+                                String valorNomeObjJson = (String) obj.getJsonArray("matricula-escola-nome")
+                                                .getJsonObject(i).getValue("nome");
+
+                                if (valorNomeObjJson.contains(_nome.toUpperCase())) {
+                                        /* Adiciona no novo ArrayList só os nomes que contém a palavra pesquisada */
+                                        novoArrayList.add(valorNomeObjJson);
+                                }
+                        }
+
+                } catch (NullPointerException nullPointerExcecao) {
+                        nullPointerExcecao.getStackTrace();
+                } catch (JsonException jException) {
+                        jException.getStackTrace();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+                /*
+                 * Retorna o objeto JsonArray somente com o objeto da API de Matrículas Escolas,
+                 * dentro de "records", utilizando o "filters", e que contêm todos os
+                 * atributos do objeto filtrado: _id,
+                 * data_extracao, codigo, nome, ei_creche_parcial, ei_creche_integral,
+                 * ei_creche, ei_pre_parcial, ei_pre_integral,
+                 * ei_pre, ef_ciclos_parcial, ef_ciclos_integral, ef_ciclos, ef_eja,
+                 * ensino_medio, normal_magisterio, profissionalizante, total
+                 */
+                return novoArrayList;
         }
 }
