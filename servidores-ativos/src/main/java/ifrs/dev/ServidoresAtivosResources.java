@@ -40,7 +40,7 @@ public class ServidoresAtivosResources {
     JsonArray newArray = new JsonArray();
     JsonArray array = getAllSA();
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < array.size(); i++) {
       if (array.getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
         newArray.add(array.getJsonObject(i));
       }
@@ -59,16 +59,18 @@ public class ServidoresAtivosResources {
   @Path("/salarios")
   public double getSMEDBasicWage() {
     JsonArray array = getByOrigin("SMED");
-    double total = 0.0;
-    //Double media = 0.0;
+    Double total = 0.0;
+    Double media = 0.0;
 
 
-    for (int i = 0; i < 10; i++) {
-      //double remuneracaoBasica = 
-      //total += remuneracaoBasica;
-      //media = total / array.size();
-      System.out.println(array.getJsonObject(i).getValue("remuneracaoBasica"));
+    for (int i = 0; i < array.size(); i++) {
+      if(array.getJsonObject(i).getDouble("remuneracao_basica") != 0) {
+        total += array.getJsonObject(i).getDouble("remuneracao_basica");
+      }
+      
     }
+    media = total / array.size();
+    System.out.println(("Total em reais de salários pagos para servidores da SMED: R$" + total + "\n") + ("Média salarial de servidores da SMED: R$" + media));
     return total;
   } 
 
