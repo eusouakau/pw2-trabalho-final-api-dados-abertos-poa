@@ -51,7 +51,7 @@ public class UserService {
         if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
             throw new Exception("Email already exists");
         } else {
-             userRepository.persist(user);
+             userRepository.getEntityManager().merge(user);
         }
 
         return user;
