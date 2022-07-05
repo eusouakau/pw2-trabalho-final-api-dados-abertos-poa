@@ -28,40 +28,50 @@ public class ServidoresAtivosResources {
   }
 
   @GET
-  @Path("/total-servidores-ativos")
+  @Path("/total")
   public String getTotalServidoresAtivos() {
-    Integer total = 0;
-    for (int i = 0; i < getAllSA().size(); i++) {
-      total += 1;
-    }
-    return "Total de Servidores Ativos: " + total.toString();
+     return "Total de Servidores Ativos: " + getAllSA().size();
   }
     
 
   @GET
-  @Path("origem/{origem}")
+  @Path("/origem/{origem}")
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
     JsonArray newArray = new JsonArray();
     JsonArray array = getAllSA();
 
-    for (int i = 0; i < array.size(); i++) {
+    for (int i = 0; i < 10; i++) {
       if (array.getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
         newArray.add(array.getJsonObject(i));
       }
     }
 
-
     return newArray;
   }
 
   @GET
-  @Path("/total-servidores-ativos/{origem}")
+  @Path("/total/{origem}")
   public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
-    Integer total = 0;
-    for (int i = 0; i < getByOrigin(origem).size(); i++) {
-      total += 1;
-    }
-    return "Total de Servidores Ativos da Origem: " + origem + ": " + total.toString();
+    return "Total de Servidores Ativos da Origem: " + origem + ": " + getByOrigin(origem).size();
   }
+
+  @GET
+  @Path("/salarios")
+  public double getSMEDBasicWage() {
+    JsonArray array = getByOrigin("SMED");
+    double total = 0.0;
+    //Double media = 0.0;
+
+
+    for (int i = 0; i < 10; i++) {
+      //double remuneracaoBasica = 
+      //total += remuneracaoBasica;
+      //media = total / array.size();
+      System.out.println(array.getJsonObject(i).getValue("remuneracaoBasica"));
+    }
+    return total;
+  } 
+
+
 
 }
