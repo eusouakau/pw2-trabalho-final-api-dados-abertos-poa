@@ -17,4 +17,7 @@ public interface ServidoresAtivosService {
 
   @GET
   public JsonArray getByOrigin(@PathParam("origem") String origem);
+
+  @GET
+  public String getSMEDBasicWage(Double remuneracaoBasica);
 }
