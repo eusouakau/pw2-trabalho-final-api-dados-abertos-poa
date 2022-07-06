@@ -93,11 +93,11 @@ public class UserResource {
   @GET
   @Path("/lista-todos-servidores-ativos")
   public JsonArray getAllSA() {
-    return servidoresAtivosService.getAll();
+    return servidoresAtivosService.getAllSA();
   }
 
   @GET
-  @Path("/total")
+  @Path("/total-servidores-ativos")
   public String getTotalServidoresAtivos() {
      return servidoresAtivosService.getTotalServidoresAtivos();
   }
@@ -109,7 +109,6 @@ public class UserResource {
     return servidoresAtivosService.getByOrigin(origem);
   }
 
- 
 
   @GET
   @Path("/total/{origem}")
