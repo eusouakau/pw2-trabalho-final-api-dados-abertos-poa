@@ -1,5 +1,7 @@
 package ifrs.dev;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -9,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -20,6 +23,7 @@ import ifrs.dev.services.ServidoresAtivosService;
 import ifrs.dev.services.UserService;
 import io.vertx.core.json.JsonArray;
 import ifrs.dev.services.CadastroEscolasService;
+import ifrs.dev.services.MatriculasEscolasService;
 import io.vertx.core.json.JsonObject;
 
 @Path("/users")
@@ -28,15 +32,20 @@ import io.vertx.core.json.JsonObject;
 public class UserResource {
 
   @Inject
-  @RestClient
-  CadastroEscolasService cadastroEscolasService;
+  UserService userService;
 
   @Inject
   @RestClient
   ServidoresAtivosService servidoresAtivosService;
 
   @Inject
-  UserService userService;
+  @RestClient
+  CadastroEscolasService cadastroEscolasService;
+  
+  @Inject
+  @RestClient
+  MatriculasEscolasService matriculasEscolasService;
+
 
   @GET
   public Response getAllUsers() {
@@ -98,6 +107,7 @@ public class UserResource {
   
   }
 
+  //  SERVIDORES ATIVOS
   @GET
   @Path("/lista-todos-servidores-ativos")
   public JsonArray getAllSA() {
@@ -130,6 +140,7 @@ public class UserResource {
     return servidoresAtivosService.getSMEDBasicWage();
   }
   
+  // CADASTROS ESCOLAS
   @GET
   @Path("/escolas/lista-todos-cadastros-escolas")
   public JsonArray getAllCE() {
@@ -152,6 +163,43 @@ public class UserResource {
   @Path("/escolas/nome/{_name}")
   public JsonArray findByName(@PathParam("_name") String _name) {
     return cadastroEscolasService.findByName(_name);
+  }
+
+  // MATRICULAS ESCOLAS
+  @GET
+  @Path("/lista-matriculas-escolas")
+  public JsonObject getAllMatriculas(){
+    return matriculasEscolasService.getAllMatriculas();
+  }
+
+  @GET
+  @Path("/listar-matriculas")
+  public JsonObject listarMatriculasEscolas(@QueryParam("fields") String codigo, @QueryParam("fields") String nome, @QueryParam("fields") String total) {
+    return matriculasEscolasService.listarMatriculasEscolas(codigo, nome, total);
+  }
+
+  @GET
+  @Path("/total-matriculas")
+  public Integer totalMatriculadosEmMatriculasEscolas(@QueryParam("fields") String totais){
+    return matriculasEscolasService.totalMatriculadosEmMatriculasEscolas(totais);
+  }
+
+  @GET
+  @Path("/filtrar-codigo-matriculas/{_codigo}")
+  public JsonObject pesquisarCodigoMatriculasEscolas(@PathParam("_codigo") Integer _codigo){
+    return matriculasEscolasService.pesquisarCodigoMatriculasEscolas(_codigo);
+  }
+
+  @GET
+  @Path("/filtrar-nome-matriculas-escolas-objetos/{_nome}")
+  public JsonArray pesquisarNomeMatriculasEscolasObjetos( @PathParam("_nome") String _nome){
+    return matriculasEscolasService.pesquisarNomeMatriculasEscolasObjetos(_nome);
+  }
+
+  @GET
+  @Path("/filtrar-nome-matriculas-escolas-nomes/{_nome}")
+  public ArrayList<String> pesquisarNomeMatriculasEscolasNomes( @PathParam("_nome") String _nome){
+    return matriculasEscolasService.pesquisarNomeMatriculasEscolasNomes(_nome);
   }
 
 }
