@@ -21,13 +21,13 @@ public class CadastroEscolasResource {
   CadastroEscolasService cadastroEscolasService;
 
   @GET
-  @Path("all")
+  @Path("/lista-todos-cadastros-escolas")
   public JsonArray getAllCE() {
     return cadastroEscolasService.getAll();
   }
 
   @GET
-  @Path("getCEByCodigo/{_codigo}")
+  @Path("/codigo/{_codigo}")
   public JsonObject getCEByCodigo(@PathParam("_codigo") Integer _codigo) {
     JsonObject newObj = new JsonObject();
 
@@ -41,7 +41,7 @@ public class CadastroEscolasResource {
   }
 
   @GET
-  @Path("getQuantidade/")
+  @Path("/quantidade")
   public String getQuantidadeByDepAdm() {
     Integer totalMunicipal = 0;
     Integer totalPrivado = 0;
@@ -60,12 +60,12 @@ public class CadastroEscolasResource {
   }
 
   @GET
-  @Path("findByName/{name}")
-  public JsonArray findByName(@PathParam("name") String name) {
+  @Path("/nome/{_name}")
+  public JsonArray findByName(@PathParam("_name") String _name) {
     JsonArray newArray = new JsonArray();
 
     for (int i = 0; i < getAllCE().size(); i++) {
-      if (getAllCE().getJsonObject(i).getString("nome").contains(name)) {
+      if (getAllCE().getJsonObject(i).getString("nome").contains(_name.toUpperCase())) {
         newArray.add(getAllCE().getJsonObject(i));
       }
     }
