@@ -22,7 +22,7 @@ public class ServidoresAtivosResources {
   ServidoresAtivosService ServidoresAtivosService;
   // a base de dados é muito grande e pode ocorrer uma demora para carregar todos os dados.
   @GET
-  @Path("/")
+  @Path("/lista-todos-servidores-ativos")
   public JsonArray getAllSA() {
     return ServidoresAtivosService.getAll();
   }
