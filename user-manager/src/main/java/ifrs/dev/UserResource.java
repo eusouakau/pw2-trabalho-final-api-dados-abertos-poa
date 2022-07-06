@@ -34,16 +34,6 @@ public class UserResource {
     }
 
     @GET
-    @Path("/{id}")
-    public Response getUserById(@PathParam("id") long id) {
-        try{
-            return Response.status(Status.OK).entity(userService.getUserById(id)).build();
-        } catch (Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
-    }
-
-    @GET
     @Path("/{name}")
     public Response getUserByName(@PathParam("name") String name) {
         try{
