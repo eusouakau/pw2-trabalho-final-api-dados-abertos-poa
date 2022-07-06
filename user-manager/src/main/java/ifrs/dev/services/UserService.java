@@ -27,7 +27,7 @@ public class UserService {
     String fullName;
 
     @Transactional
-    @RolesAllowed("User")
+    @RolesAllowed({ "User" })
     public List<User> getAllUsers() {
         try{
             return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
