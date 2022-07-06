@@ -28,7 +28,7 @@ public class ServidoresAtivosResources {
   }
 
   @GET
-  @Path("/total")
+  @Path("/total-servidores-ativos")
   public String getTotalServidoresAtivos() {
      return "Total de Servidores Ativos: " + getAllSA().size();
   }
