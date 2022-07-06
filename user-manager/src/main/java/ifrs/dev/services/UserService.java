@@ -29,74 +29,94 @@ public class UserService {
     @Transactional
     @RolesAllowed("User")
     public List<User> getAllUsers() {
-        return userRepository.listAll();
-    }
-
-    @Transactional
-    @RolesAllowed({ "User" })
-    public User getUserById(long id) {
-        return userRepository.findById(id);
+        try{
+            return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Transactional
     @RolesAllowed({ "User" })
     public User getUserByName(String name) {
-        return userRepository.findByName(name);
+        try{
+            if(Objects.isNull(name)) {
+                throw new Exception("Nenhum usuario encontrado");
+            }
+            return userRepository.findByName(name);
+        } catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Transactional
     @PermitAll
     public User createUser(User user) {
-
-        if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
-            throw new Exception("Email already exists");
-        } else {
-             userRepository.persist(user);
+        try{
+            if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
+                throw new Exception("Email já cadastrado");
+            } else {
+                userRepository.getEntityManager().merge(user);
+            }
+            
+            return user;
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
         }
-
-        return user;
     }
 
     @Transactional
     @PermitAll
     public User login(User user) {
-        User userFound = userRepository.findByEmail(user.getEmail());
-        if (Objects.isNull(userFound)) {
-            throw new Exception("User not found");
+        try{
+            User userFound = userRepository.findByEmail(user.getEmail());
+            if (Objects.isNull(userFound)) {
+                throw new Exception("Email não cadastrado");
+            }
+            if (!userFound.getPassword().equals(user.getPassword())) {
+                throw new Exception("Senha incorreta");
+            }
+            return userFound;
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
         }
-        if (!userFound.getPassword().equals(user.getPassword())) {
-            throw new Exception("Password not match");
-        }
-        return userFound;
     }
 
 
     @Transactional
     @RolesAllowed({ "User" })
     public User updateUser(User user) {
-        User userTemp = userRepository.findById(user.getId());
-        if(Objects.equals(userTemp, null)){
-          throw new Exception("Usuario não encontrado");
+        try{
+            User userTemp = userRepository.findById(user.getId());
+            if(Objects.equals(userTemp, null)){
+            throw new Exception("Usuario não encontrado");
+            }
+
+            userTemp.setName(user.getName());
+            userTemp.setBirthDate(user.getBirthDate());
+            userTemp.setEmail(user.getEmail());
+            userTemp.setPassword(user.getPassword());
+
+            userRepository.persist(userTemp);
+            return userTemp;
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
         }
-
-        userTemp.setName(user.getName());
-        userTemp.setBirthDate(user.getBirthDate());
-        userTemp.setEmail(user.getEmail());
-        userTemp.setPassword(user.getPassword());
-
-        userRepository.persist(userTemp);
-        return userTemp;
     }
 
     @Transactional
     @RolesAllowed({ "User" })
     public Boolean deleteUser(long id) {
-        User userTemp = userRepository.findById(id);
-        if(Objects.equals(userTemp, null)){
-           throw new Exception("Usuario não encontrado");
-        }
+        try{
+            User userTemp = userRepository.findById(id);
+            if(Objects.equals(userTemp, null)){
+            throw new Exception("Usuario não encontrado");
+            }
 
-        userRepository.delete(userTemp);
-        return true;
+            userRepository.delete(userTemp);
+            return true;
+        } catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 }
