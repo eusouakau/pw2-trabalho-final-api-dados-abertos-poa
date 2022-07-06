@@ -44,7 +44,7 @@ public class MatriculasEscolasResource {
          * de Porto Alegre
          */
         @GET
-        @Path("/all")
+        @Path("/lista-matriculas-escolas")
         @Timeout(1000)
         public JsonObject getAllMatriculas() {
                 try {
