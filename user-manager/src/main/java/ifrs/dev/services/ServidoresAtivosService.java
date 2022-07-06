@@ -3,6 +3,7 @@ package ifrs.dev.services;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -16,18 +17,24 @@ import io.vertx.core.json.JsonArray;
 public interface ServidoresAtivosService {
     
   @GET
-  public JsonArray getAll();
+  @Path("/lista-todos-servidores-ativos")
+  public JsonArray getAllSA();
 
   @GET
-  public JsonArray getByOrigin(@PathParam("origem") String origem);
-
-  @GET
+  @Path("/total-servidores-ativos")
   public String getTotalServidoresAtivos();
 
   @GET
-  public double getSMEDBasicWage();
+  @Path("/origem/{origem}")
+  public JsonArray getByOrigin(@PathParam("origem") String origem);
 
   @GET
+  @Path("/total/{origem}")
   public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem);
+
+  @GET
+  @Path("/salarios")
+  public double getSMEDBasicWage();
+
 
 }
