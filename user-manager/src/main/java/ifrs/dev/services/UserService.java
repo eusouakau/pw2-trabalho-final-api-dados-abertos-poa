@@ -38,19 +38,6 @@ public class UserService {
 
     @Transactional
     @RolesAllowed({ "User" })
-    public User getUserById(long id) {
-        try{
-            if(Objects.isNull(userRepository.findById(id))) {
-                throw new Exception("Ususario não encontrado");
-            }
-            return userRepository.findById(id);
-        }catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    @Transactional
-    @RolesAllowed({ "User" })
     public User getUserByName(String name) {
         try{
             if(Objects.isNull(name)) {
