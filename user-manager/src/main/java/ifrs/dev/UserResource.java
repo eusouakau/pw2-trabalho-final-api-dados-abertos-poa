@@ -104,38 +104,37 @@ public class UserResource {
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
     }
 
-  
   }
 
   //  SERVIDORES ATIVOS
   @GET
-  @Path("/lista-todos-servidores-ativos")
+  @Path("/servidores/lista-todos-servidores-ativos")
   public JsonArray getAllSA() {
     return servidoresAtivosService.getAllSA();
   }
 
   @GET
-  @Path("/total-servidores-ativos")
+  @Path("/servidores/total-servidores-ativos")
   public String getTotalServidoresAtivos() {
      return servidoresAtivosService.getTotalServidoresAtivos();
   }
     
 
   @GET
-  @Path("/origem/{origem}")
+  @Path("/servidores/origem/{origem}")
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
     return servidoresAtivosService.getByOrigin(origem);
   }
 
 
   @GET
-  @Path("/total/{origem}")
+  @Path("/servidores/total/{origem}")
   public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
     return servidoresAtivosService.getTotalServidoresAtivosByOrigin(origem);
   }
 
   @GET
-  @Path("/salarios")
+  @Path("/servidores/salarios")
   public double getSMEDBasicWage() {
     return servidoresAtivosService.getSMEDBasicWage();
   }
@@ -167,37 +166,37 @@ public class UserResource {
 
   // MATRICULAS ESCOLAS
   @GET
-  @Path("/lista-matriculas-escolas")
+  @Path("/matriculas/lista-matriculas-escolas")
   public JsonObject getAllMatriculas(){
     return matriculasEscolasService.getAllMatriculas();
   }
 
   @GET
-  @Path("/listar-matriculas")
+  @Path("/matriculas/listar-matriculas")
   public JsonObject listarMatriculasEscolas(@QueryParam("fields") String codigo, @QueryParam("fields") String nome, @QueryParam("fields") String total) {
     return matriculasEscolasService.listarMatriculasEscolas(codigo, nome, total);
   }
 
   @GET
-  @Path("/total-matriculas")
+  @Path("/matriculas/total-matriculas")
   public Integer totalMatriculadosEmMatriculasEscolas(@QueryParam("fields") String totais){
     return matriculasEscolasService.totalMatriculadosEmMatriculasEscolas(totais);
   }
 
   @GET
-  @Path("/filtrar-codigo-matriculas/{_codigo}")
+  @Path("/matriculas/filtrar-codigo-matriculas/{_codigo}")
   public JsonObject pesquisarCodigoMatriculasEscolas(@PathParam("_codigo") Integer _codigo){
     return matriculasEscolasService.pesquisarCodigoMatriculasEscolas(_codigo);
   }
 
   @GET
-  @Path("/filtrar-nome-matriculas-escolas-objetos/{_nome}")
+  @Path("/matriculas/filtrar-nome-matriculas-escolas-objetos/{_nome}")
   public JsonArray pesquisarNomeMatriculasEscolasObjetos( @PathParam("_nome") String _nome){
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasObjetos(_nome);
   }
 
   @GET
-  @Path("/filtrar-nome-matriculas-escolas-nomes/{_nome}")
+  @Path("/matriculas/filtrar-nome-matriculas-escolas-nomes/{_nome}")
   public ArrayList<String> pesquisarNomeMatriculasEscolasNomes( @PathParam("_nome") String _nome){
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasNomes(_nome);
   }
