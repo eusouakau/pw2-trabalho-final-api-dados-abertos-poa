@@ -1,7 +1,6 @@
 package ifrs.edu;
 
 import java.util.ArrayList;
-
 import javax.inject.Inject;
 import javax.json.JsonException;
 import javax.ws.rs.GET;
@@ -12,7 +11,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -27,11 +25,10 @@ public class MatriculasEscolasResource {
          */
         static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
         /*
-         * Cria um objeto Json
+         * Cria um objeto Json que será usado em cada método
          * Documentação: https://stleary.github.io/JSON-java/org/json/JSONObject.html
          */
         JsonObject obj = new JsonObject();
-
         /*
          * Injeção de dependência em no bean MatriculasEscolasService
          */
@@ -44,7 +41,7 @@ public class MatriculasEscolasResource {
          * de Porto Alegre
          */
         @GET
-        @Path("/all")
+        @Path("/lista-matriculas-escolas")
         @Timeout(1000)
         public JsonObject getAllMatriculas() {
                 try {
@@ -140,7 +137,6 @@ public class MatriculasEscolasResource {
                                                 .getValue("total");
                                 totalMatriculas = a + b;
                         }
-
                         /*
                          * Retorna a soma do atributo: total de matriculas por escola
                          */
@@ -154,7 +150,7 @@ public class MatriculasEscolasResource {
         }
 
         /*
-         * Como o Get e Path funcionam para o filters:
+         * Como o Get e Path funcionavam para o filters:
          * http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-
          * atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
          */
@@ -203,7 +199,7 @@ public class MatriculasEscolasResource {
         }
 
         /*
-         * Como o Get e Path funcionam para o filters:
+         * Como o Get e Path funcionavam para o filters:
          * http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-
          * atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
          */
@@ -220,7 +216,6 @@ public class MatriculasEscolasResource {
                         obj.clear();
 
                         String serializad = obj.toString();
-
                         obj.clear();
                         /*
                          * Traz os resultados da API de matrículas-escolas em um array limpo
@@ -275,7 +270,7 @@ public class MatriculasEscolasResource {
         }
 
         /*
-         * Como o Get e Path funcionam para o filters:
+         * Como o Get e Path funcionavam para o filters:
          * http://localhost:3333/matriculas-escolas/datastore_search_Local/filtrar-
          * atributo-matriculas?filters=%7B%22codigo%22%3A105%7D
          */
@@ -304,13 +299,14 @@ public class MatriculasEscolasResource {
                         for (int i = 0; i < obj.getJsonArray("matricula-escola-nome").size(); i++) {
                                 String valorNomeObjJson = (String) obj.getJsonArray("matricula-escola-nome")
                                                 .getJsonObject(i).getValue("nome");
-
+                                /*
+                                 * Verifica se o _nome enviado contém na API de matriculas-escolas
+                                 */
                                 if (valorNomeObjJson.contains(_nome.toUpperCase())) {
                                         /* Adiciona no novo ArrayList só os nomes que contém a palavra pesquisada */
                                         novoArrayList.add(valorNomeObjJson);
                                 }
                         }
-
                 } catch (NullPointerException nullPointerExcecao) {
                         nullPointerExcecao.getStackTrace();
                 } catch (JsonException jException) {
@@ -319,7 +315,8 @@ public class MatriculasEscolasResource {
                         e.printStackTrace();
                 }
                 /*
-                 * Retorna o objeto JsonArray somente com o objeto da API de Matrículas Escolas,
+                 * Retorna o objeto JsonArray somente com o objeto da API de Matrículas Escolas
+                 * pesquisado,
                  * dentro de "records", utilizando o "filters", e que contêm todos os
                  * atributos do objeto filtrado: _id,
                  * data_extracao, codigo, nome, ei_creche_parcial, ei_creche_integral,
