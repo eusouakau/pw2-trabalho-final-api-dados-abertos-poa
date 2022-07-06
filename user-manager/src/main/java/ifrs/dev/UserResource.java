@@ -13,8 +13,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import ifrs.dev.models.User;
+import ifrs.dev.services.ServidoresAtivosService;
 import ifrs.dev.services.UserService;
+import io.vertx.core.json.JsonArray;
 
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -23,6 +27,10 @@ public class UserResource {
     
     @Inject
     UserService userService;
+
+    @Inject
+    @RestClient
+    ServidoresAtivosService servidoresAtivosService;
     
     @GET
     public Response getAllUsers() {
@@ -81,4 +89,38 @@ public class UserResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
+
+  @GET
+  @Path("/lista-todos-servidores-ativos")
+  public JsonArray getAllSA() {
+    return servidoresAtivosService.getAll();
+  }
+
+  @GET
+  @Path("/total")
+  public String getTotalServidoresAtivos() {
+     return servidoresAtivosService.getTotalServidoresAtivos();
+  }
+    
+
+  @GET
+  @Path("/origem/{origem}")
+  public JsonArray getByOrigin(@PathParam("origem") String origem) {
+    return servidoresAtivosService.getByOrigin(origem);
+  }
+
+ 
+
+  @GET
+  @Path("/total/{origem}")
+  public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
+    return servidoresAtivosService.getTotalServidoresAtivosByOrigin(origem);
+  }
+
+  @GET
+  @Path("/salarios")
+  public double getSMEDBasicWage() {
+    return servidoresAtivosService.getSMEDBasicWage();
+  } 
+
 }
