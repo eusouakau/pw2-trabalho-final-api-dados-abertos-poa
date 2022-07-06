@@ -1,7 +1,6 @@
 package ifrs.edu;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -13,8 +12,8 @@ import io.vertx.core.json.JsonObject;
  * Caso a API caia novamente, utilizar o código abaixo que os dados estão mokados
  * @RegisterRestClient(baseUri = "https://raw.githubusercontent.com/eusouakau/dados-abertos-poa-json/master/matriculas_escolas.json") 
 */
-@Path("/action/datastore_search")
-@RegisterRestClient
+
+@RegisterRestClient(baseUri = "https://dadosabertos.poa.br/api/3/action/datastore_search")
 @Produces(MediaType.APPLICATION_JSON)
 public interface MatriculasEscolasService {
 
@@ -22,8 +21,6 @@ public interface MatriculasEscolasService {
          * Id da API de Matrículas Escolas
          * static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
          */
-        @QueryParam("resource_id")
-        String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
 
         @GET
         @Produces(MediaType.APPLICATION_JSON)
