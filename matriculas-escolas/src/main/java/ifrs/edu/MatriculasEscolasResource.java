@@ -17,7 +17,7 @@ import io.vertx.core.json.JsonObject;
 /*
  * Define o path da url que será mostrada para o cliente
  */
-@Path("/matriculas-escolas/datastore_search_Local")
+@Path("/matriculas-escolas")
 @Produces(MediaType.APPLICATION_JSON)
 public class MatriculasEscolasResource {
         /*
@@ -41,7 +41,7 @@ public class MatriculasEscolasResource {
          * de Porto Alegre
          */
         @GET
-        @Path("/all")
+        @Path("/lista-matriculas-escolas")
         @Timeout(1000)
         public JsonObject getAllMatriculas() {
                 try {

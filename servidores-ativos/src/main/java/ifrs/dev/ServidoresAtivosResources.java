@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -23,12 +24,14 @@ public class ServidoresAtivosResources {
   // a base de dados é muito grande e pode ocorrer uma demora para carregar todos os dados.
   @GET
   @Path("/lista-todos-servidores-ativos")
+  @Timeout(10000)
   public JsonArray getAllSA() {
     return ServidoresAtivosService.getAll();
   }
 
   @GET
   @Path("/total-servidores-ativos")
+  @Timeout(10000)
   public String getTotalServidoresAtivos() {
      return "Total de Servidores Ativos: " + getAllSA().size();
   }
@@ -36,6 +39,7 @@ public class ServidoresAtivosResources {
 
   @GET
   @Path("/origem/{origem}")
+  @Timeout(10000)
   public JsonArray getByOrigin(@PathParam("origem") String origem) {
     JsonArray newArray = new JsonArray();
     JsonArray array = getAllSA();
@@ -51,12 +55,14 @@ public class ServidoresAtivosResources {
 
   @GET
   @Path("/total/{origem}")
+  @Timeout(10000)
   public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
     return "Total de Servidores Ativos da Origem: " + origem + ": " + getByOrigin(origem).size();
   }
 
   @GET
   @Path("/salarios")
+  @Timeout(10000)
   public double getSMEDBasicWage() {
     JsonArray array = getByOrigin("SMED");
     Double total = 0.0;
@@ -73,7 +79,4 @@ public class ServidoresAtivosResources {
     System.out.println(("Total em reais de salários pagos para servidores da SMED: R$" + total + "\n") + ("Média salarial de servidores da SMED: R$" + media));
     return total;
   } 
-
-
-
 }

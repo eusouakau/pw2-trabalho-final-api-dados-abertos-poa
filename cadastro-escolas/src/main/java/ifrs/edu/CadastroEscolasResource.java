@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -22,12 +23,14 @@ public class CadastroEscolasResource {
 
   @GET
   @Path("/lista-todos-cadastros-escolas")
+  @Timeout(10000)
   public JsonArray getAllCE() {
     return cadastroEscolasService.getAll();
   }
 
   @GET
   @Path("/codigo/{_codigo}")
+  @Timeout(10000)
   public JsonObject getCEByCodigo(@PathParam("_codigo") Integer _codigo) {
     JsonObject newObj = new JsonObject();
 
@@ -42,6 +45,7 @@ public class CadastroEscolasResource {
 
   @GET
   @Path("/quantidade")
+  @Timeout(10000)
   public String getQuantidadeByDepAdm() {
     Integer totalMunicipal = 0;
     Integer totalPrivado = 0;
@@ -55,12 +59,12 @@ public class CadastroEscolasResource {
         totalPrivado += 1;
       }
     }
-    String result = "Total Municipal: " + totalMunicipal.toString() + "\nTotal Privado: " + totalPrivado.toString();
-    return result;
+    return "Total Municipal: " + totalMunicipal.toString() + "\nTotal Privado: " + totalPrivado.toString();
   }
 
   @GET
   @Path("/nome/{_name}")
+  @Timeout(10000)
   public JsonArray findByName(@PathParam("_name") String _name) {
     JsonArray newArray = new JsonArray();
 
