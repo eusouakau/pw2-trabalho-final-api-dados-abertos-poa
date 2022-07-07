@@ -61,7 +61,6 @@ public class UserResource {
   @GET
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public Response getAllUsers(@Context SecurityContext ctx) {
     try {
       return Response.status(Status.OK).entity(userService.getAllUsers()).build();
@@ -74,7 +73,6 @@ public class UserResource {
   @Path("/{name}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public Response getUserByName(@Context SecurityContext ctx, @PathParam("name") String name) {
     try {
       return Response.status(Status.OK).entity(userService.getUserByName(name)).build();
@@ -111,7 +109,6 @@ public class UserResource {
   @Path("/atualizar/{id}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public Response updateUser(@Context SecurityContext ctx, @PathParam("id") Long id, User user) {
     try {
       return Response.status(Status.OK).entity(userService.updateUser(user)).build();
@@ -124,7 +121,6 @@ public class UserResource {
   @Path("/deletar/{id}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public Response deleteUser(@Context SecurityContext ctx, @PathParam("id") Long id) {
     try {
       return Response.status(Status.OK).entity(userService.deleteUser(id)).build();
@@ -139,7 +135,6 @@ public class UserResource {
   @Path("/servidores/lista-todos-servidores-ativos")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonArray getAllSA(@Context SecurityContext ctx) {
     return servidoresAtivosService.getAllSA();
   }
@@ -148,7 +143,6 @@ public class UserResource {
   @Path("/servidores/total-servidores-ativos")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public String getTotalServidoresAtivos(@Context SecurityContext ctx) {
      return servidoresAtivosService.getTotalServidoresAtivos();
   }
@@ -158,7 +152,6 @@ public class UserResource {
   @Path("/servidores/origem/{origem}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonArray getByOrigin(@Context SecurityContext ctx, @PathParam("origem") String origem) {
     return servidoresAtivosService.getByOrigin(origem);
   }
@@ -168,7 +161,6 @@ public class UserResource {
   @Path("/servidores/total/{origem}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public String getTotalServidoresAtivosByOrigin(@Context SecurityContext ctx, @PathParam("origem") String origem) {
     return servidoresAtivosService.getTotalServidoresAtivosByOrigin(origem);
   }
@@ -177,7 +169,6 @@ public class UserResource {
   @Path("/servidores/salarios")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public double getSMEDBasicWage(@Context SecurityContext ctx) {
     return servidoresAtivosService.getSMEDBasicWage();
   }
@@ -187,7 +178,6 @@ public class UserResource {
   @Path("/escolas/lista-todos-cadastros-escolas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonArray getAllCE(@Context SecurityContext ctx) {
     return cadastroEscolasService.getAllCE();
   }
@@ -196,7 +186,6 @@ public class UserResource {
   @Path("/escolas/codigo/{_codigo}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonObject getCEByCodigo(@Context SecurityContext ctx, @PathParam("_codigo") Integer _codigo) {
     return cadastroEscolasService.getCEByCodigo(_codigo);
   }
@@ -204,6 +193,7 @@ public class UserResource {
   @GET
   @Path("/escolas/quantidade/")
   @Timeout(10000)
+  @RolesAllowed({ "User" })
   public String getQuantidadeByDepAdm(@Context SecurityContext ctx) {
     return cadastroEscolasService.getQuantidadeByDepAdm();
   }
@@ -212,7 +202,6 @@ public class UserResource {
   @Path("/escolas/nome/{_name}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonArray findByName(@Context SecurityContext ctx, @PathParam("_name") String _name) {
     return cadastroEscolasService.findByName(_name);
   }
@@ -222,7 +211,6 @@ public class UserResource {
   @Path("/matriculas/lista-matriculas-escolas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonObject getAllMatriculas(@Context SecurityContext ctx){
     return matriculasEscolasService.getAllMatriculas();
   }
@@ -231,7 +219,6 @@ public class UserResource {
   @Path("/matriculas/listar-matriculas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonObject listarMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String codigo, @QueryParam("fields") String nome, @QueryParam("fields") String total) {
     return matriculasEscolasService.listarMatriculasEscolas(codigo, nome, total);
   }
@@ -240,7 +227,6 @@ public class UserResource {
   @Path("/matriculas/total-matriculas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public Integer totalMatriculadosEmMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String totais){
     return matriculasEscolasService.totalMatriculadosEmMatriculasEscolas(totais);
   }
@@ -249,7 +235,6 @@ public class UserResource {
   @Path("/matriculas/filtrar-codigo-matriculas/{_codigo}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonObject pesquisarCodigoMatriculasEscolas(@Context SecurityContext ctx, @PathParam("_codigo") Integer _codigo){
     return matriculasEscolasService.pesquisarCodigoMatriculasEscolas(_codigo);
   }
@@ -258,7 +243,6 @@ public class UserResource {
   @Path("/matriculas/filtrar-nome-matriculas-escolas-objetos/{_nome}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public JsonArray pesquisarNomeMatriculasEscolasObjetos(@Context SecurityContext ctx, @PathParam("_nome") String _nome){
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasObjetos(_nome);
   }
@@ -267,7 +251,6 @@ public class UserResource {
   @Path("/matriculas/filtrar-nome-matriculas-escolas-nomes/{_nome}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  @Produces(MediaType.TEXT_PLAIN)
   public ArrayList<String> pesquisarNomeMatriculasEscolasNomes(@Context SecurityContext ctx, @PathParam("_nome") String _nome){
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasNomes(_nome);
   }
