@@ -4,7 +4,7 @@ package ifrs.dev;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -21,7 +21,7 @@ import io.smallrye.jwt.build.Jwt;
 public class JWT {
 
     @POST
-    @PermitAll
+    @RolesAllowed({"User"})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     public String getJWT(@FormParam("name") String name, @FormParam("email") String email){
