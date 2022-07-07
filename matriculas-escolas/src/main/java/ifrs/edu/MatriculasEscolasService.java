@@ -17,7 +17,6 @@ import io.vertx.core.json.JsonObject;
 @Produces(MediaType.APPLICATION_JSON)
 public interface MatriculasEscolasService {
 
-<<<<<<< HEAD
   /*
    * Id da API de Matrículas Escolas
    * static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
@@ -48,35 +47,4 @@ public interface MatriculasEscolasService {
   public JsonObject getTotalMatriculas(
       @QueryParam("resource_id") String resource_id,
       @QueryParam("fields") String total);
-=======
-        /*
-         * Id da API de Matrículas Escolas
-         * static String resource_id = "5b5bc272-6666-4d24-8ddd-138fea511809";
-         */
-
-        @GET
-        @Produces(MediaType.APPLICATION_JSON)
-        public JsonObject getAll(
-                        @QueryParam("resource_id") String resource_id);
-
-        @GET
-        @Produces(MediaType.APPLICATION_JSON)
-        public JsonObject getListarMatriculas(
-                        @QueryParam("resource_id") String resource_id,
-                        @QueryParam("fields") String codigo,
-                        @QueryParam("fields") String nome,
-                        @QueryParam("fields") String total);
-
-        @GET
-        @Produces(MediaType.APPLICATION_JSON)
-        public JsonObject getAtributoMatriculasEscolas(
-                        @QueryParam("resource_id") String resource_id,
-                        @QueryParam("filters") String filters);
-
-        @GET
-        @Produces(MediaType.APPLICATION_JSON)
-        public JsonObject getTotalMatriculas(
-                        @QueryParam("resource_id") String resource_id,
-                        @QueryParam("fields") String total);
->>>>>>> 8ff1ccb344cf68c1238cf1bf093a9331f903b48b
 }

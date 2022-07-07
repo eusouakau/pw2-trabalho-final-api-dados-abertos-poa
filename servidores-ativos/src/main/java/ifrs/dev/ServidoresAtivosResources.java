@@ -21,7 +21,9 @@ public class ServidoresAtivosResources {
   @Inject
   @RestClient
   ServidoresAtivosService ServidoresAtivosService;
-  // a base de dados é muito grande e pode ocorrer uma demora para carregar todos os dados.
+
+  // a base de dados é muito grande e pode ocorrer uma demora para carregar todos
+  // os dados.
   @GET
   @Path("/lista-todos-servidores-ativos")
   @Timeout(10000)
@@ -33,9 +35,8 @@ public class ServidoresAtivosResources {
   @Path("/total-servidores-ativos")
   @Timeout(10000)
   public String getTotalServidoresAtivos() {
-     return "Total de Servidores Ativos: " + getAllSA().size();
+    return "Total de Servidores Ativos: " + getAllSA().size();
   }
-    
 
   @GET
   @Path("/origem/{origem}")
@@ -44,7 +45,7 @@ public class ServidoresAtivosResources {
     JsonArray newArray = new JsonArray();
     JsonArray array = getAllSA();
 
-    for (int i = 0; i < array.size(); i++) {
+    for (int i = 0; i < 1000; i++) {
       if (array.getJsonObject(i).getValue("origem").toString().equalsIgnoreCase(origem)) {
         newArray.add(array.getJsonObject(i));
       }
@@ -68,15 +69,15 @@ public class ServidoresAtivosResources {
     Double total = 0.0;
     Double media = 0.0;
 
-
-    for (int i = 0; i < array.size(); i++) {
-      if(array.getJsonObject(i).getDouble("remuneracao_basica") != 0) {
+    for (int i = 0; i < 1000; i++) {
+      if (array.getJsonObject(i).getDouble("remuneracao_basica") != 0) {
         total += array.getJsonObject(i).getDouble("remuneracao_basica");
       }
-      
+
     }
     media = total / array.size();
-    System.out.println(("Total em reais de salários pagos para servidores da SMED: R$" + total + "\n") + ("Média salarial de servidores da SMED: R$" + media));
+    System.out.println(("Total em reais de salários pagos para servidores da SMED: R$" + total + "\n")
+        + ("Média salarial de servidores da SMED: R$" + media));
     return total;
-  } 
+  }
 }
