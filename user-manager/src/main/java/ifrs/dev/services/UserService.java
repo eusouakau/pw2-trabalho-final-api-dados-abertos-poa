@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -27,7 +26,6 @@ public class UserService {
     String fullName;
 
     @Transactional
-    @RolesAllowed({ "User" })
     public List<User> getAllUsers() {
         try{
             return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
@@ -37,7 +35,6 @@ public class UserService {
     }
 
     @Transactional
-    @RolesAllowed({ "User" })
     public User getUserByName(String name) {
         try{
             if(Objects.isNull(name)) {
@@ -84,7 +81,6 @@ public class UserService {
 
 
     @Transactional
-    @RolesAllowed({ "User" })
     public User updateUser(User user) {
         try{
             User userTemp = userRepository.findById(user.getId());
@@ -105,7 +101,6 @@ public class UserService {
     }
 
     @Transactional
-    @RolesAllowed({ "User" })
     public Boolean deleteUser(long id) {
         try{
             User userTemp = userRepository.findById(id);

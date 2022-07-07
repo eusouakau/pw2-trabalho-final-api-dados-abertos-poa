@@ -2,6 +2,8 @@ package ifrs.dev;
 
 import java.util.ArrayList;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -12,11 +14,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.eclipse.microprofile.faulttolerance.Timeout;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import ifrs.dev.models.User;
@@ -31,6 +37,10 @@ import io.vertx.core.json.JsonObject;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
+
+  @Inject
+  @Claim(standard = Claims.full_name)
+  String fullName;
 
   @Inject
   UserService userService;
@@ -50,7 +60,9 @@ public class UserResource {
 
   @GET
   @Timeout(10000)
-  public Response getAllUsers() {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response getAllUsers(@Context SecurityContext ctx) {
     try {
       return Response.status(Status.OK).entity(userService.getAllUsers()).build();
     } catch (Exception e) {
@@ -61,7 +73,9 @@ public class UserResource {
   @GET
   @Path("/{name}")
   @Timeout(10000)
-  public Response getUserByName(@PathParam("name") String name) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response getUserByName(@Context SecurityContext ctx, @PathParam("name") String name) {
     try {
       return Response.status(Status.OK).entity(userService.getUserByName(name)).build();
     } catch (Exception e) {
@@ -70,7 +84,9 @@ public class UserResource {
   }
 
   @POST
+  @Path("/create")
   @Timeout(10000)
+  @PermitAll
   public Response createUser(User user) {
     try {
       return Response.status(Status.CREATED).entity(userService.createUser(user)).build();
@@ -82,6 +98,7 @@ public class UserResource {
   @POST
   @Path("/login")
   @Timeout(10000)
+  @PermitAll
   public Response login(User user) {
     try {
       return Response.status(Status.OK).entity(userService.login(user)).build();
@@ -93,7 +110,9 @@ public class UserResource {
   @PUT
   @Path("/atualizar/{id}")
   @Timeout(10000)
-  public Response updateUser(@PathParam("id") Long id, User user) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response updateUser(@Context SecurityContext ctx, @PathParam("id") Long id, User user) {
     try {
       return Response.status(Status.OK).entity(userService.updateUser(user)).build();
     } catch (Exception e) {
@@ -104,7 +123,9 @@ public class UserResource {
   @DELETE
   @Path("/deletar/{id}")
   @Timeout(10000)
-  public Response deleteUser(@PathParam("id") Long id) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response deleteUser(@Context SecurityContext ctx, @PathParam("id") Long id) {
     try {
       return Response.status(Status.OK).entity(userService.deleteUser(id)).build();
     } catch (Exception e) {
@@ -117,14 +138,18 @@ public class UserResource {
   @GET
   @Path("/servidores/lista-todos-servidores-ativos")
   @Timeout(10000)
-  public JsonArray getAllSA() {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonArray getAllSA(@Context SecurityContext ctx) {
     return servidoresAtivosService.getAllSA();
   }
 
   @GET
   @Path("/servidores/total-servidores-ativos")
   @Timeout(10000)
-  public String getTotalServidoresAtivos() {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public String getTotalServidoresAtivos(@Context SecurityContext ctx) {
      return servidoresAtivosService.getTotalServidoresAtivos();
   }
     
@@ -132,7 +157,9 @@ public class UserResource {
   @GET
   @Path("/servidores/origem/{origem}")
   @Timeout(10000)
-  public JsonArray getByOrigin(@PathParam("origem") String origem) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonArray getByOrigin(@Context SecurityContext ctx, @PathParam("origem") String origem) {
     return servidoresAtivosService.getByOrigin(origem);
   }
 
@@ -140,14 +167,18 @@ public class UserResource {
   @GET
   @Path("/servidores/total/{origem}")
   @Timeout(10000)
-  public String getTotalServidoresAtivosByOrigin(@PathParam("origem") String origem) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public String getTotalServidoresAtivosByOrigin(@Context SecurityContext ctx, @PathParam("origem") String origem) {
     return servidoresAtivosService.getTotalServidoresAtivosByOrigin(origem);
   }
 
   @GET
   @Path("/servidores/salarios")
   @Timeout(10000)
-  public double getSMEDBasicWage() {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public double getSMEDBasicWage(@Context SecurityContext ctx) {
     return servidoresAtivosService.getSMEDBasicWage();
   }
   
@@ -155,28 +186,34 @@ public class UserResource {
   @GET
   @Path("/escolas/lista-todos-cadastros-escolas")
   @Timeout(10000)
-  public JsonArray getAllCE() {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonArray getAllCE(@Context SecurityContext ctx) {
     return cadastroEscolasService.getAllCE();
   }
 
   @GET
   @Path("/escolas/codigo/{_codigo}")
   @Timeout(10000)
-  public JsonObject getCEByCodigo(@PathParam("_codigo") Integer _codigo) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonObject getCEByCodigo(@Context SecurityContext ctx, @PathParam("_codigo") Integer _codigo) {
     return cadastroEscolasService.getCEByCodigo(_codigo);
   }
 
   @GET
   @Path("/escolas/quantidade/")
   @Timeout(10000)
-  public String getQuantidadeByDepAdm() {
+  public String getQuantidadeByDepAdm(@Context SecurityContext ctx) {
     return cadastroEscolasService.getQuantidadeByDepAdm();
   }
 
   @GET
   @Path("/escolas/nome/{_name}")
   @Timeout(10000)
-  public JsonArray findByName(@PathParam("_name") String _name) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonArray findByName(@Context SecurityContext ctx, @PathParam("_name") String _name) {
     return cadastroEscolasService.findByName(_name);
   }
 
@@ -184,42 +221,54 @@ public class UserResource {
   @GET
   @Path("/matriculas/lista-matriculas-escolas")
   @Timeout(10000)
-  public JsonObject getAllMatriculas(){
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonObject getAllMatriculas(@Context SecurityContext ctx){
     return matriculasEscolasService.getAllMatriculas();
   }
 
   @GET
   @Path("/matriculas/listar-matriculas")
   @Timeout(10000)
-  public JsonObject listarMatriculasEscolas(@QueryParam("fields") String codigo, @QueryParam("fields") String nome, @QueryParam("fields") String total) {
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonObject listarMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String codigo, @QueryParam("fields") String nome, @QueryParam("fields") String total) {
     return matriculasEscolasService.listarMatriculasEscolas(codigo, nome, total);
   }
 
   @GET
   @Path("/matriculas/total-matriculas")
   @Timeout(10000)
-  public Integer totalMatriculadosEmMatriculasEscolas(@QueryParam("fields") String totais){
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public Integer totalMatriculadosEmMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String totais){
     return matriculasEscolasService.totalMatriculadosEmMatriculasEscolas(totais);
   }
 
   @GET
   @Path("/matriculas/filtrar-codigo-matriculas/{_codigo}")
   @Timeout(10000)
-  public JsonObject pesquisarCodigoMatriculasEscolas(@PathParam("_codigo") Integer _codigo){
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonObject pesquisarCodigoMatriculasEscolas(@Context SecurityContext ctx, @PathParam("_codigo") Integer _codigo){
     return matriculasEscolasService.pesquisarCodigoMatriculasEscolas(_codigo);
   }
 
   @GET
   @Path("/matriculas/filtrar-nome-matriculas-escolas-objetos/{_nome}")
   @Timeout(10000)
-  public JsonArray pesquisarNomeMatriculasEscolasObjetos( @PathParam("_nome") String _nome){
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public JsonArray pesquisarNomeMatriculasEscolasObjetos(@Context SecurityContext ctx, @PathParam("_nome") String _nome){
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasObjetos(_nome);
   }
 
   @GET
   @Path("/matriculas/filtrar-nome-matriculas-escolas-nomes/{_nome}")
   @Timeout(10000)
-  public ArrayList<String> pesquisarNomeMatriculasEscolasNomes( @PathParam("_nome") String _nome){
+  @RolesAllowed({ "User" })
+  @Produces(MediaType.TEXT_PLAIN)
+  public ArrayList<String> pesquisarNomeMatriculasEscolasNomes(@Context SecurityContext ctx, @PathParam("_nome") String _nome){
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasNomes(_nome);
   }
 
