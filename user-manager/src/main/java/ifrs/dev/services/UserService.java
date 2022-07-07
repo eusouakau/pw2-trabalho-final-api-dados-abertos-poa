@@ -10,12 +10,13 @@ import javax.transaction.Transactional;
 
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import ifrs.dev.exception.Exception;
 import ifrs.dev.models.User;
 import ifrs.dev.repository.UserRepository;
 
-@ApplicationScoped
+@Transactional
 public class UserService {
     
     @Inject
@@ -25,7 +26,9 @@ public class UserService {
     @Claim(standard = Claims.full_name)
     String fullName;
 
-    @Transactional
+    @Inject
+    JsonWebToken jwt;
+
     public List<User> getAllUsers() {
         try{
             return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
@@ -34,7 +37,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     public User getUserByName(String name) {
         try{
             if(Objects.isNull(name)) {
@@ -46,7 +48,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     @PermitAll
     public User createUser(User user) {
         try{
@@ -62,7 +63,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     @PermitAll
     public User login(User user) {
         try{
@@ -80,7 +80,6 @@ public class UserService {
     }
 
 
-    @Transactional
     public User updateUser(User user) {
         try{
             User userTemp = userRepository.findById(user.getId());
@@ -100,7 +99,6 @@ public class UserService {
         }
     }
 
-    @Transactional
     public Boolean deleteUser(long id) {
         try{
             User userTemp = userRepository.findById(id);
