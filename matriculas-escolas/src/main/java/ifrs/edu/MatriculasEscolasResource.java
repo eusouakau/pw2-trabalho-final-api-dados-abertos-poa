@@ -42,7 +42,7 @@ public class MatriculasEscolasResource {
          */
         @GET
         @Path("/lista-matriculas-escolas")
-        @Timeout(1000)
+        @Timeout(10000)
         public JsonObject getAllMatriculas() {
                 try {
                         /*
@@ -74,7 +74,7 @@ public class MatriculasEscolasResource {
          */
         @GET
         @Path("/listar-matriculas")
-        @Timeout(1000)
+        @Timeout(10000)
         public JsonObject listarMatriculasEscolas(
                         @QueryParam("fields") String codigo,
                         @QueryParam("fields") String nome,
@@ -114,7 +114,7 @@ public class MatriculasEscolasResource {
          */
         @GET
         @Path("/total-matriculas")
-        @Timeout(1000)
+        @Timeout(10000)
         public Integer totalMatriculadosEmMatriculasEscolas(
                         @QueryParam("fields") String totais) {
                 Integer totalMatriculas = 0;
@@ -156,7 +156,7 @@ public class MatriculasEscolasResource {
          */
         @GET
         @Path("/filtrar-codigo-matriculas/{_codigo}")
-        @Timeout(1000)
+        @Timeout(10000)
         public JsonObject pesquisarCodigoMatriculasEscolas(
                         /*
                          * Tentativa frustrada de filtrar por atributo - fica para história e registro
@@ -205,7 +205,7 @@ public class MatriculasEscolasResource {
          */
         @GET
         @Path("/filtrar-nome-matriculas-escolas-objetos/{_nome}")
-        @Timeout(17000)
+        @Timeout(10000)
         public JsonArray pesquisarNomeMatriculasEscolasObjetos(
                         @PathParam("_nome") String _nome) {
                 JsonArray novoJsonArray = new JsonArray();
@@ -276,7 +276,7 @@ public class MatriculasEscolasResource {
          */
         @GET
         @Path("/filtrar-nome-matriculas-escolas-nomes/{_nome}")
-        @Timeout(17000)
+        @Timeout(10000)
         public ArrayList<String> pesquisarNomeMatriculasEscolasNomes(
                         @PathParam("_nome") String _nome) {
                 ArrayList<String> novoArrayList = new ArrayList<String>();
