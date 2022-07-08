@@ -1,4 +1,4 @@
-package ifrs.edu.healh;
+package ifrs.edu.health;
 
 import javax.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.HealthCheck;
@@ -10,11 +10,10 @@ import org.eclipse.microprofile.health.Liveness;
  */
 @Liveness
 @ApplicationScoped
-public class MyLivenessCheckUp implements HealthCheck {
-
-    /* Testa se a aplicação está saudável */
+public class MyLivenessCheckTime implements HealthCheck {
     @Override
     public HealthCheckResponse call() {
-        return HealthCheckResponse.named("Aplication UP").up().build();
+        return HealthCheckResponse.named("Application UP").up().withData("Tempo de Resposta em milessegundos", 100)
+                .build();
     }
 }

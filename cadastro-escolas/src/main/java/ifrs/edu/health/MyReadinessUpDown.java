@@ -1,4 +1,4 @@
-package ifrs.edu.healh;
+package ifrs.edu.health;
 
 import javax.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.HealthCheck;
