@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response.Status;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import ifrs.dev.exception.Exception;
@@ -40,6 +41,9 @@ import io.vertx.core.json.JsonObject;
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
 public class UserResource {
+
+  @Inject
+  JsonWebToken jwt;
 
   @Inject
   @Claim(standard = Claims.full_name)

@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import ifrs.dev.JWT;
 import ifrs.dev.exception.Exception;
