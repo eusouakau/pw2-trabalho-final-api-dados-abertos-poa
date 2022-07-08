@@ -26,7 +26,7 @@ public class JWT {
     @Produces(MediaType.TEXT_PLAIN)
     public String getJWT(@FormParam("name") String name, @FormParam("email") String email){
    
-        return Jwt.issuer("https://localhost:3340")
+        return Jwt.issuer("http://localhost:3500")
             .upn(email)
             .groups(new HashSet<>(Arrays.asList("User")))
             .claim(Claims.full_name, name)
