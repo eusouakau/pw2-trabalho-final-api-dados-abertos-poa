@@ -1,6 +1,5 @@
 package ifrs.dev.models;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.Getter;
@@ -35,17 +35,20 @@ public class User extends PanacheEntityBase{
     @Column(name = "senha")
     private String password;
     
+    @Transient
+    private String token;
 
     public User() {
       
     }
     
-    public User(String name, Date birthDate, String email, String password, long id) {
+    public User(String name, Date birthDate, String email, String password, long id, String token) {
         this.name = name;
         this.birthDate = birthDate;
         this.email = email;
         this.password = password;
         this.id = id;
+        this.token = token;
     }
 
 }

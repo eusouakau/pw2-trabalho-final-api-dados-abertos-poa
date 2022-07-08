@@ -25,6 +25,7 @@ import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import ifrs.dev.exception.Exception;
 import ifrs.dev.models.User;
 import ifrs.dev.services.ServidoresAtivosService;
 import ifrs.dev.services.UserService;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -11,107 +12,112 @@ import javax.transaction.Transactional;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 
+import ifrs.dev.JWT;
 import ifrs.dev.exception.Exception;
 import ifrs.dev.models.User;
 import ifrs.dev.repository.UserRepository;
 
 @ApplicationScoped
 public class UserService {
-    
-    @Inject
-    UserRepository userRepository;
-    
-    @Inject
-    @Claim(standard = Claims.full_name)
-    String fullName;
 
-    @Transactional
-    public List<User> getAllUsers() {
-        try{
-            return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+  @Inject
+  JWT jwt;
+
+  @Inject
+  UserRepository userRepository;
+
+  @Inject
+  @Claim(standard = Claims.full_name)
+  String fullName;
+
+  @Transactional
+  public List<User> getAllUsers() {
+    try {
+      return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
     }
+  }
 
-    @Transactional
-    public User getUserByName(String name) {
-        try{
-            if(Objects.isNull(name)) {
-                throw new Exception("Nenhum usuario encontrado");
-            }
-            return userRepository.findByName(name);
-        } catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
+  @Transactional
+  public User getUserByName(String name) {
+    try {
+      if (Objects.isNull(name)) {
+        throw new Exception("Nenhum usuario encontrado");
+      }
+      return userRepository.findByName(name);
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
     }
+  }
 
-    @Transactional
-    @PermitAll
-    public User createUser(User user) {
-        try{
-            if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
-                throw new Exception("Email já cadastrado");
-            } else {
-                userRepository.getEntityManager().merge(user);
-            }
-            
-            return user;
-        }catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
+  @Transactional
+  @PermitAll
+  public User createUser(User user) {
+    try {
+      if (Objects.nonNull(userRepository.findByEmail(user.getEmail()))) {
+        throw new Exception("Email já cadastrado");
+      } else {
+        userRepository.getEntityManager().merge(user);
+      }
+
+      return user;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
     }
+  }
 
-    @Transactional
-    @PermitAll
-    public User login(User user) {
-        try{
-            User userFound = userRepository.findByEmail(user.getEmail());
-            if (Objects.isNull(userFound)) {
-                throw new Exception("Email não cadastrado");
-            }
-            if (!userFound.getPassword().equals(user.getPassword())) {
-                throw new Exception("Senha incorreta");
-            }
-            return userFound;
-        }catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
+  @Transactional
+  @PermitAll
+  public User login(User user) {
+    try {
+      User userFound = userRepository.findByEmail(user.getEmail());
+      if (Objects.isNull(userFound)) {
+        throw new Exception("Email não cadastrado");
+      }
+      if (!userFound.getPassword().equals(user.getPassword())) {
+        throw new Exception("Senha incorreta");
+      }
+
+      userFound.setToken("Bearer " + jwt.getJWT(userFound.getName(), userFound.getEmail()));
+      return userFound;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
     }
+  }
 
+  @Transactional
+  public User updateUser(User user) {
+    try {
+      User userTemp = userRepository.findById(user.getId());
+      if (Objects.equals(userTemp, null)) {
+        throw new Exception("Usuario não encontrado");
+      }
 
-    @Transactional
-    public User updateUser(User user) {
-        try{
-            User userTemp = userRepository.findById(user.getId());
-            if(Objects.equals(userTemp, null)){
-            throw new Exception("Usuario não encontrado");
-            }
+      userTemp.setName(user.getName());
+      userTemp.setBirthDate(user.getBirthDate());
+      userTemp.setEmail(user.getEmail());
+      userTemp.setPassword(user.getPassword());
 
-            userTemp.setName(user.getName());
-            userTemp.setBirthDate(user.getBirthDate());
-            userTemp.setEmail(user.getEmail());
-            userTemp.setPassword(user.getPassword());
-
-            userRepository.persist(userTemp);
-            return userTemp;
-        }catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
+      userRepository.persist(userTemp);
+      return userTemp;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
     }
+  }
 
-    @Transactional
-    public Boolean deleteUser(long id) {
-        try{
-            User userTemp = userRepository.findById(id);
-            if(Objects.equals(userTemp, null)){
-            throw new Exception("Usuario não encontrado");
-            }
+  @Transactional
+  public Boolean deleteUser(long id) {
+    try {
+      User userTemp = userRepository.findById(id);
+      if (Objects.equals(userTemp, null)) {
+        throw new Exception("Usuario não encontrado");
+      }
 
-            userRepository.delete(userTemp);
-            return true;
-        } catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
+      userRepository.delete(userTemp);
+      return true;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
     }
+  }
 }
