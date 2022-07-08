@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.security.PermitAll;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -16,6 +17,7 @@ import ifrs.dev.models.User;
 import ifrs.dev.repository.UserRepository;
 
 @Transactional
+@ApplicationScoped
 public class UserService {
 
   @Inject
