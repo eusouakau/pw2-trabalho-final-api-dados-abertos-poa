@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,6 +38,7 @@ import io.vertx.core.json.JsonObject;
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RequestScoped
 public class UserResource {
 
   @Inject
@@ -53,11 +55,10 @@ public class UserResource {
   @Inject
   @RestClient
   CadastroEscolasService cadastroEscolasService;
-  
+
   @Inject
   @RestClient
   MatriculasEscolasService matriculasEscolasService;
-
 
   @GET
   @Timeout(10000)
@@ -131,7 +132,7 @@ public class UserResource {
 
   }
 
-  //  SERVIDORES ATIVOS
+  // SERVIDORES ATIVOS
   @GET
   @Path("/servidores/lista-todos-servidores-ativos")
   @Timeout(10000)
@@ -145,9 +146,8 @@ public class UserResource {
   @Timeout(10000)
   @RolesAllowed({ "User" })
   public String getTotalServidoresAtivos(@Context SecurityContext ctx) {
-     return servidoresAtivosService.getTotalServidoresAtivos();
+    return servidoresAtivosService.getTotalServidoresAtivos();
   }
-    
 
   @GET
   @Path("/servidores/origem/{origem}")
@@ -156,7 +156,6 @@ public class UserResource {
   public JsonArray getByOrigin(@Context SecurityContext ctx, @PathParam("origem") String origem) {
     return servidoresAtivosService.getByOrigin(origem);
   }
-
 
   @GET
   @Path("/servidores/total/{origem}")
@@ -173,7 +172,7 @@ public class UserResource {
   public double getSMEDBasicWage(@Context SecurityContext ctx) {
     return servidoresAtivosService.getSMEDBasicWage();
   }
-  
+
   // CADASTROS ESCOLAS
   @GET
   @Path("/escolas/lista-todos-cadastros-escolas")
@@ -212,7 +211,7 @@ public class UserResource {
   @Path("/matriculas/lista-matriculas-escolas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  public JsonObject getAllMatriculas(@Context SecurityContext ctx){
+  public JsonObject getAllMatriculas(@Context SecurityContext ctx) {
     return matriculasEscolasService.getAllMatriculas();
   }
 
@@ -220,7 +219,8 @@ public class UserResource {
   @Path("/matriculas/listar-matriculas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  public JsonObject listarMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String codigo, @QueryParam("fields") String nome, @QueryParam("fields") String total) {
+  public JsonObject listarMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String codigo,
+      @QueryParam("fields") String nome, @QueryParam("fields") String total) {
     return matriculasEscolasService.listarMatriculasEscolas(codigo, nome, total);
   }
 
@@ -228,7 +228,8 @@ public class UserResource {
   @Path("/matriculas/total-matriculas")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  public Integer totalMatriculadosEmMatriculasEscolas(@Context SecurityContext ctx, @QueryParam("fields") String totais){
+  public Integer totalMatriculadosEmMatriculasEscolas(@Context SecurityContext ctx,
+      @QueryParam("fields") String totais) {
     return matriculasEscolasService.totalMatriculadosEmMatriculasEscolas(totais);
   }
 
@@ -236,7 +237,8 @@ public class UserResource {
   @Path("/matriculas/filtrar-codigo-matriculas/{_codigo}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  public JsonObject pesquisarCodigoMatriculasEscolas(@Context SecurityContext ctx, @PathParam("_codigo") Integer _codigo){
+  public JsonObject pesquisarCodigoMatriculasEscolas(@Context SecurityContext ctx,
+      @PathParam("_codigo") Integer _codigo) {
     return matriculasEscolasService.pesquisarCodigoMatriculasEscolas(_codigo);
   }
 
@@ -244,7 +246,8 @@ public class UserResource {
   @Path("/matriculas/filtrar-nome-matriculas-escolas-objetos/{_nome}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  public JsonArray pesquisarNomeMatriculasEscolasObjetos(@Context SecurityContext ctx, @PathParam("_nome") String _nome){
+  public JsonArray pesquisarNomeMatriculasEscolasObjetos(@Context SecurityContext ctx,
+      @PathParam("_nome") String _nome) {
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasObjetos(_nome);
   }
 
@@ -252,11 +255,9 @@ public class UserResource {
   @Path("/matriculas/filtrar-nome-matriculas-escolas-nomes/{_nome}")
   @Timeout(10000)
   @RolesAllowed({ "User" })
-  public ArrayList<String> pesquisarNomeMatriculasEscolasNomes(@Context SecurityContext ctx, @PathParam("_nome") String _nome){
+  public ArrayList<String> pesquisarNomeMatriculasEscolasNomes(@Context SecurityContext ctx,
+      @PathParam("_nome") String _nome) {
     return matriculasEscolasService.pesquisarNomeMatriculasEscolasNomes(_nome);
   }
 
 }
-
-
-  

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -17,11 +15,8 @@ import ifrs.dev.exception.Exception;
 import ifrs.dev.models.User;
 import ifrs.dev.repository.UserRepository;
 
-@ApplicationScoped
+@Transactional
 public class UserService {
-
-  @Inject
-  JWT jwt;
 
   @Inject
   UserRepository userRepository;
@@ -30,7 +25,9 @@ public class UserService {
   @Claim(standard = Claims.full_name)
   String fullName;
 
-  @Transactional
+  @Inject
+  JWT jwt;
+
   public List<User> getAllUsers() {
     try {
       return userRepository.listAll().isEmpty() ? null : userRepository.listAll();
@@ -39,7 +36,6 @@ public class UserService {
     }
   }
 
-  @Transactional
   public User getUserByName(String name) {
     try {
       if (Objects.isNull(name)) {
@@ -51,7 +47,6 @@ public class UserService {
     }
   }
 
-  @Transactional
   @PermitAll
   public User createUser(User user) {
     try {
@@ -67,7 +62,6 @@ public class UserService {
     }
   }
 
-  @Transactional
   @PermitAll
   public User login(User user) {
     try {
@@ -78,7 +72,6 @@ public class UserService {
       if (!userFound.getPassword().equals(user.getPassword())) {
         throw new Exception("Senha incorreta");
       }
-
       userFound.setToken("Bearer " + jwt.getJWT(userFound.getName(), userFound.getEmail()));
       return userFound;
     } catch (Exception e) {
@@ -86,7 +79,6 @@ public class UserService {
     }
   }
 
-  @Transactional
   public User updateUser(User user) {
     try {
       User userTemp = userRepository.findById(user.getId());
@@ -106,7 +98,6 @@ public class UserService {
     }
   }
 
-  @Transactional
   public Boolean deleteUser(long id) {
     try {
       User userTemp = userRepository.findById(id);
